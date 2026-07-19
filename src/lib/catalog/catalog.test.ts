@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { getBuiltInCatalog } from './loadCatalog';
-import { indexCatalog, annualBenefitValue } from './helpers';
+import { indexCatalog, annualBenefitValue, searchCards } from './helpers';
 
 describe('bundled catalog', () => {
   const catalog = getBuiltInCatalog();
@@ -51,5 +51,45 @@ describe('bundled catalog', () => {
     const platinum = catalog.cards.find((c) => c.id === 'amex-platinum')!;
     // Uber 15*12 + Digital 20*12 + Saks 50*2 + Airline 200 + Hotel 200 + Walmart 12.95*12 + CLEAR 199
     expect(annualBenefitValue(platinum)).toBeGreaterThan(1000);
+  });
+});
+
+describe('searchCards', () => {
+  const catalog = getBuiltInCatalog();
+  const ids = (query: string) => searchCards(catalog, query).map((c) => c.id);
+
+  it('returns every card for an empty or whitespace query', () => {
+    expect(searchCards(catalog, '')).toHaveLength(catalog.cards.length);
+    expect(searchCards(catalog, '   ')).toHaveLength(catalog.cards.length);
+  });
+
+  it('does not mutate the underlying catalog order', () => {
+    const before = catalog.cards.map((c) => c.id);
+    searchCards(catalog, '');
+    expect(catalog.cards.map((c) => c.id)).toEqual(before);
+  });
+
+  it('matches on the card name, case-insensitively', () => {
+    expect(ids('platinum')).toEqual(expect.arrayContaining(['amex-platinum', 'amex-delta-platinum']));
+    expect(ids('PLATINUM')).toEqual(ids('platinum'));
+  });
+
+  it('matches on the issuer name even when it is absent from the card name', () => {
+    // "The Ritz-Carlton Credit Card" has no "chase" in its name; issuer is Chase.
+    expect(ids('chase')).toContain('chase-ritz-carlton');
+  });
+
+  it('matches on the network', () => {
+    expect(ids('mastercard')).toEqual(
+      expect.arrayContaining(['citi-strata-premier', 'citi-strata-elite']),
+    );
+  });
+
+  it('AND-matches multiple whitespace-separated terms', () => {
+    expect(ids('amex gold')).toEqual(['amex-gold']);
+  });
+
+  it('returns nothing when no card matches every term', () => {
+    expect(searchCards(catalog, 'platinum zzznope')).toHaveLength(0);
   });
 });
