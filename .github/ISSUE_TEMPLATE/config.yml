@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 📖 Docs & questions
+    url: https://github.com/QingpingMeng/cardsguru#readme
+    about: Read the README for setup, syncing, and how the catalog works.

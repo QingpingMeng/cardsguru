@@ -21,6 +21,28 @@ and your data syncs across devices through **a private GitHub repository that yo
 > CardsGuru is informational only and is **not financial advice**. Benefit terms change; always
 > confirm details with your card issuer.
 
+## Screenshots
+
+The **Benefits** dashboard — every recurring credit your cards offer, grouped by reset cycle, with
+one-tap "mark used", **Set & forget** automation for standing subscriptions, and expiry warnings:
+
+<p align="center">
+  <img src="docs/screenshots/dashboard.jpg" width="860" alt="CardsGuru benefits dashboard" />
+</p>
+
+| Expiring soon | My cards |
+| :---: | :---: |
+| <img src="docs/screenshots/expiring.jpg" alt="Expiring-soon list" /> | <img src="docs/screenshots/cards.jpg" alt="My cards" /> |
+| **Settings** | **Connect &amp; sync** |
+| <img src="docs/screenshots/settings.jpg" alt="Settings" /> | <img src="docs/screenshots/connect.jpg" alt="Connect to a private GitHub repo" /> |
+
+<p align="center">
+  <img src="docs/screenshots/mobile-dashboard.jpg" width="300" alt="CardsGuru on a phone" />
+  <br /><em>Installable PWA — the desktop sidebar collapses to a mobile tab bar.</em>
+</p>
+
+<sub>Screenshots are generated from the running app by <code>scripts/screenshots.mjs</code> (Playwright).</sub>
+
 ## Tech stack
 
 React 18 · TypeScript · Vite · Zustand · IndexedDB (`idb`) · date-fns · Zod · framer-motion ·

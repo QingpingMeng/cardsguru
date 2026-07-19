@@ -1,0 +1,98 @@
+name: "💳 Card request"
+description: Request a credit card that isn't in the CardsGuru catalog yet
+title: "[Card request]: "
+labels: ["card-request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping grow the catalog! When you submit this, a bot will crawl the sources,
+        cross-validate the **recurring benefits** (credits that reset monthly / quarterly / yearly /
+        by membership year), and open a pull request adding the card for a maintainer to review.
+
+        The more accurate the source links, the better the result.
+  - type: input
+    id: card-name
+    attributes:
+      label: Card name
+      description: The full product name, exactly as the issuer markets it.
+      placeholder: e.g. U.S. Bank Altitude Reserve Visa Infinite
+    validations:
+      required: true
+  - type: dropdown
+    id: issuer
+    attributes:
+      label: Issuer
+      options:
+        - American Express
+        - Chase
+        - Citi
+        - Capital One
+        - Bank of America
+        - Wells Fargo
+        - U.S. Bank
+        - Barclays
+        - Other
+    validations:
+      required: true
+  - type: dropdown
+    id: card-network
+    attributes:
+      label: Card network
+      options:
+        - Visa
+        - Mastercard
+        - American Express
+        - Discover
+        - Not sure
+    validations:
+      required: false
+  - type: input
+    id: usccg-url
+    attributes:
+      label: uscreditcardguide.com URL
+      description: The review page on uscreditcardguide.com, if you have it. This is the bot's primary source.
+      placeholder: https://www.uscreditcardguide.com/<slug>/
+    validations:
+      required: false
+  - type: input
+    id: issuer-url
+    attributes:
+      label: Issuer benefits URL
+      description: The official issuer product page (used to cross-validate benefits).
+      placeholder: https://www.americanexpress.com/us/credit-cards/card/...
+    validations:
+      required: false
+  - type: input
+    id: extra-url
+    attributes:
+      label: Additional source URL
+      description: Any other page describing the card's recurring credits.
+    validations:
+      required: false
+  - type: textarea
+    id: known-benefits
+    attributes:
+      label: Known recurring benefits
+      description: List any recurring credits you already know about and how often they reset.
+      placeholder: |
+        - $300 travel credit — annual (membership year)
+        - $15/mo Uber Cash — monthly (calendar)
+    validations:
+      required: false
+  - type: input
+    id: annual-fee
+    attributes:
+      label: Annual fee (USD)
+      placeholder: e.g. 550
+    validations:
+      required: false
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: Before submitting
+      options:
+        - label: I checked that this card isn't already in the catalog.
+          required: true
+        - label: The recurring benefits I'm requesting reset on a schedule (not one-time sign-up bonuses).
+          required: true

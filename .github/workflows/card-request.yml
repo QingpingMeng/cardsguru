@@ -1,0 +1,88 @@
+name: Card request bot
+
+# When someone files a "card request" issue, crawl the sources, cross-validate the
+# recurring benefits with GitHub Models, and open a pull request adding the card.
+
+on:
+  issues:
+    types: [opened, labeled]
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+  models: read
+
+concurrency:
+  group: card-request-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  ingest:
+    # Only run for card-request issues (via the template label or the title prefix).
+    if: >-
+      startsWith(github.event.issue.title, '[Card request]') ||
+      contains(github.event.issue.labels.*.name, 'card-request') ||
+      github.event.label.name == 'card-request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Acknowledge the request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE: ${{ github.event.issue.number }}
+        run: |
+          gh issue edit "$ISSUE" --add-label card-request 2>/dev/null || true
+          gh issue comment "$ISSUE" --body "🤖 Thanks! Crawling sources and cross-validating this card's recurring benefits — I'll open a PR or follow up here shortly."
+
+      - name: Triage, crawl & cross-validate
+        id: ingest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          MODEL: openai/gpt-4o
+        run: node scripts/ingest-card-request.mjs
+
+      - name: Open pull request
+        id: cpr
+        if: steps.ingest.outputs.status == 'success'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          base: main
+          branch: ${{ steps.ingest.outputs.pr_branch }}
+          title: ${{ steps.ingest.outputs.pr_title }}
+          body-path: ${{ steps.ingest.outputs.pr_body_path }}
+          commit-message: ${{ steps.ingest.outputs.pr_title }}
+          labels: card-request, automated
+          draft: ${{ steps.ingest.outputs.draft }}
+          add-paths: |
+            src/data/catalog.json
+            public/catalog/catalog.json
+
+      - name: Comment with the pull request
+        if: steps.ingest.outputs.status == 'success'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE: ${{ github.event.issue.number }}
+          PR_URL: ${{ steps.cpr.outputs.pull-request-url }}
+          COMMENT_PATH: ${{ steps.ingest.outputs.comment_path }}
+        run: |
+          BODY="$(cat "$COMMENT_PATH")"
+          if [ -n "$PR_URL" ]; then BODY="$BODY"$'\n\n'"→ $PR_URL"; fi
+          gh issue comment "$ISSUE" --body "$BODY"
+
+      - name: Comment on failure
+        if: steps.ingest.outputs.status != 'success'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE: ${{ github.event.issue.number }}
+          COMMENT_PATH: ${{ steps.ingest.outputs.comment_path }}
+        run: gh issue comment "$ISSUE" --body-file "$COMMENT_PATH"

@@ -40,3 +40,6 @@ coverage
 
 # PWA generated
 dev-dist
+
+# Card-request bot scratch (PR body / comments / preview)
+.card-request/
