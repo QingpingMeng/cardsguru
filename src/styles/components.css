@@ -1,0 +1,353 @@
+/* ---------------------------------------------------------------------------
+ * Buttons
+ * ------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  height: 38px;
+  padding: 0 var(--space-4);
+  font-family: inherit;
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  line-height: 1;
+  white-space: nowrap;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  transition:
+    background-color var(--dur-fast) var(--ease-standard),
+    border-color var(--dur-fast) var(--ease-standard),
+    color var(--dur-fast) var(--ease-standard),
+    filter var(--dur-fast) var(--ease-standard);
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn--sm {
+  height: 30px;
+  padding: 0 var(--space-3);
+  font-size: var(--text-sm);
+}
+
+.btn--lg {
+  height: 46px;
+  padding: 0 var(--space-5);
+  font-size: var(--text-md);
+}
+
+.btn--block {
+  width: 100%;
+}
+
+.btn--primary {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 86%, #fff), var(--accent));
+  color: var(--text-on-accent);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.18),
+    0 6px 16px color-mix(in srgb, var(--accent) 40%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+.btn--primary:not(:disabled):hover {
+  filter: brightness(1.05) saturate(1.03);
+}
+.btn--primary:not(:disabled):active {
+  filter: brightness(0.97);
+}
+
+.btn--secondary {
+  background: var(--glass-bg-strong);
+  color: var(--text-primary);
+  border-color: var(--glass-border);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  box-shadow: inset 0 1px 0 var(--glass-highlight);
+}
+.btn--secondary:not(:disabled):hover {
+  background: var(--glass-bg-elevated);
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--text-primary);
+}
+.btn--ghost:not(:disabled):hover {
+  background: var(--fill-subtle);
+}
+
+.btn--danger {
+  background: var(--color-danger);
+  color: #fff;
+  box-shadow:
+    var(--shadow-1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+.btn--danger:not(:disabled):hover {
+  filter: brightness(0.95);
+}
+
+.btn--icon {
+  width: 38px;
+  padding: 0;
+  border-radius: var(--radius-pill);
+}
+.btn--icon.btn--sm {
+  width: 30px;
+}
+
+/* ---------------------------------------------------------------------------
+ * Segmented control (macOS style)
+ * ------------------------------------------------------------------------- */
+.segmented {
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  border-radius: var(--radius-md);
+  background: var(--fill-subtle);
+  border: 1px solid var(--separator);
+}
+
+.segmented__option {
+  position: relative;
+  z-index: 1;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-sm);
+  padding: var(--space-1) var(--space-4);
+  border-radius: calc(var(--radius-md) - 3px);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color var(--dur-fast) var(--ease-standard);
+}
+.segmented__option[aria-selected='true'] {
+  color: var(--text-primary);
+}
+
+.segmented__label {
+  position: relative;
+  z-index: 1;
+}
+
+.segmented__thumb {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: calc(var(--radius-md) - 3px);
+  background: var(--glass-bg-elevated);
+  box-shadow:
+    var(--shadow-1),
+    inset 0 1px 0 var(--glass-highlight);
+}
+
+/* ---------------------------------------------------------------------------
+ * Badges / chips
+ * ------------------------------------------------------------------------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.02em;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+}
+.badge--neutral {
+  background: var(--fill-medium);
+  color: var(--text-secondary);
+}
+.badge--accent {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.badge--success {
+  background: var(--color-success-soft);
+  color: var(--color-success);
+}
+.badge--warning {
+  background: var(--color-warning-soft);
+  color: var(--color-warning);
+}
+.badge--danger {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+}
+
+/* ---------------------------------------------------------------------------
+ * Cards
+ * ------------------------------------------------------------------------- */
+.glass-card {
+  padding: var(--space-5);
+}
+
+/* ---------------------------------------------------------------------------
+ * Inputs
+ * ------------------------------------------------------------------------- */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.field__label {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--text-secondary);
+}
+.field__hint {
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+}
+.field__error {
+  font-size: var(--text-xs);
+  color: var(--color-danger);
+}
+
+.input {
+  width: 100%;
+  height: 40px;
+  padding: 0 var(--space-3);
+  font-family: inherit;
+  font-size: var(--text-base);
+  color: var(--text-primary);
+  background: var(--fill-subtle);
+  border: 1px solid var(--separator);
+  border-radius: var(--radius-sm);
+  transition:
+    border-color var(--dur-fast) var(--ease-standard),
+    box-shadow var(--dur-fast) var(--ease-standard),
+    background-color var(--dur-fast) var(--ease-standard);
+}
+.input::placeholder {
+  color: var(--text-tertiary);
+}
+.input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: var(--focus-ring);
+  background: var(--glass-bg-elevated);
+}
+textarea.input {
+  height: auto;
+  min-height: 88px;
+  padding: var(--space-3);
+  resize: vertical;
+  line-height: var(--leading-normal);
+}
+
+/* Two-up form fields — equal columns keep input widths and heights consistent. */
+.field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3) var(--space-4);
+  align-items: start;
+}
+@media (max-width: 560px) {
+  .field-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * List rows
+ * ------------------------------------------------------------------------- */
+.list-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+}
+.list-row + .list-row {
+  border-top: 1px solid var(--separator);
+}
+.list-row__grow {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ---------------------------------------------------------------------------
+ * Generic helpers
+ * ------------------------------------------------------------------------- */
+.stack {
+  display: flex;
+  flex-direction: column;
+}
+.row {
+  display: flex;
+  align-items: center;
+}
+.spread {
+  justify-content: space-between;
+}
+.gap-1 {
+  gap: var(--space-1);
+}
+.gap-2 {
+  gap: var(--space-2);
+}
+.gap-3 {
+  gap: var(--space-3);
+}
+.gap-4 {
+  gap: var(--space-4);
+}
+.gap-5 {
+  gap: var(--space-5);
+}
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---------------------------------------------------------------------------
+ * App layout
+ * ------------------------------------------------------------------------- */
+.app-shell {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: max(env(safe-area-inset-top), var(--space-5)) var(--space-5)
+    max(env(safe-area-inset-bottom), var(--space-6));
+}
+
+.container {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.page-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-6);
+}
+
+.page-title {
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-bold);
+  letter-spacing: -0.02em;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--space-4);
+}
+
+@media (max-width: 640px) {
+  .page-title {
+    font-size: var(--text-xl);
+  }
+}

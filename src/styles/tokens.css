@@ -1,0 +1,207 @@
+/*
+ * CardsGuru design tokens — a Liquid Glass system.
+ *
+ * Theming strategy:
+ *   :root                          -> light tokens (default)
+ *   @media (prefers-color-scheme)  -> dark tokens when the user has not forced a theme
+ *   :root[data-theme="dark|light"] -> explicit manual override
+ */
+
+:root {
+  /* Typography */
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Inter var', Inter,
+    'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-rounded: 'SF Pro Rounded', var(--font-sans);
+  --font-mono: 'SF Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+
+  --text-2xs: 0.6875rem; /* 11 */
+  --text-xs: 0.75rem; /* 12 */
+  --text-sm: 0.8125rem; /* 13 */
+  --text-base: 0.9375rem; /* 15 */
+  --text-md: 1.0625rem; /* 17 — macOS body */
+  --text-lg: 1.3125rem; /* 21 */
+  --text-xl: 1.75rem; /* 28 */
+  --text-2xl: 2.25rem; /* 36 */
+  --text-3xl: 3rem; /* 48 */
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  --leading-tight: 1.15;
+  --leading-normal: 1.4;
+  --leading-relaxed: 1.6;
+
+  /* Spacing (4px base) */
+  --space-0: 0;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 2.5rem;
+  --space-8: 3rem;
+  --space-9: 4rem;
+
+  /* Concentric radii */
+  --radius-xs: 8px;
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+  --radius-xl: 28px;
+  --radius-2xl: 34px;
+  --radius-pill: 999px;
+
+  /* Accent + semantic hues (shared across themes) */
+  --accent-h: 211;
+  --accent: hsl(var(--accent-h) 100% 50%);
+  --accent-strong: hsl(var(--accent-h) 100% 44%);
+  --accent-soft: hsl(var(--accent-h) 100% 50% / 0.16);
+  --accent-contrast: #ffffff;
+
+  --color-success: hsl(145 63% 42%);
+  --color-success-soft: hsl(145 63% 42% / 0.16);
+  --color-warning: hsl(38 92% 50%);
+  --color-warning-soft: hsl(38 92% 50% / 0.18);
+  --color-danger: hsl(4 84% 58%);
+  --color-danger-soft: hsl(4 84% 58% / 0.16);
+  --color-info: hsl(var(--accent-h) 100% 50%);
+
+  /* Motion */
+  --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur-fast: 140ms;
+  --dur-base: 220ms;
+  --dur-slow: 380ms;
+
+  /* Glass material geometry */
+  --glass-blur: 26px;
+  --glass-blur-strong: 40px;
+  --glass-saturate: 175%;
+
+  /* ---- Light theme surfaces ---- */
+  --bg-base: #dbe4f3;
+  --wallpaper-1: hsl(208 100% 72%);
+  --wallpaper-2: hsl(258 96% 78%);
+  --wallpaper-3: hsl(326 100% 80%);
+  --wallpaper-4: hsl(158 85% 73%);
+  --wallpaper-5: hsl(42 100% 80%);
+  --wallpaper-base-a: hsl(213 92% 87%);
+  --wallpaper-base-b: hsl(268 82% 85%);
+
+  --glass-bg: rgba(255, 255, 255, 0.42);
+  --glass-bg-strong: rgba(255, 255, 255, 0.58);
+  --glass-bg-elevated: rgba(255, 255, 255, 0.74);
+  --glass-border: rgba(255, 255, 255, 0.7);
+  --glass-inline: rgba(255, 255, 255, 0.5);
+  --glass-highlight: rgba(255, 255, 255, 0.9);
+  --glass-lowlight: rgba(15, 23, 42, 0.05);
+  --glass-tint: rgba(255, 255, 255, 0.12);
+  --glass-sheen: rgba(255, 255, 255, 0.55);
+  --glass-sheen-2: rgba(255, 255, 255, 0.32);
+  --glass-specular: inset 1px 1px 0 rgba(255, 255, 255, 0.6);
+  --glass-inner-glow: inset 0 0 16px rgba(255, 255, 255, 0.22);
+
+  --text-primary: rgba(17, 24, 39, 0.92);
+  --text-secondary: rgba(17, 24, 39, 0.6);
+  --text-tertiary: rgba(17, 24, 39, 0.42);
+  --text-on-accent: #ffffff;
+  --separator: rgba(17, 24, 39, 0.1);
+  --fill-subtle: rgba(17, 24, 39, 0.05);
+  --fill-medium: rgba(17, 24, 39, 0.09);
+
+  --shadow-1: 0 1px 2px rgba(15, 23, 42, 0.08), 0 1px 1px rgba(15, 23, 42, 0.04);
+  --shadow-2: 0 12px 36px rgba(15, 23, 42, 0.14), 0 3px 10px rgba(15, 23, 42, 0.08),
+    0 0 0 0.5px rgba(15, 23, 42, 0.05);
+  --shadow-3: 0 32px 80px rgba(15, 23, 42, 0.26), 0 10px 26px rgba(15, 23, 42, 0.14),
+    0 0 0 0.5px rgba(15, 23, 42, 0.07);
+
+  --focus-ring: 0 0 0 3px hsl(var(--accent-h) 100% 50% / 0.4);
+}
+
+/* Dark tokens when the OS is dark and no manual override is set */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg-base: #090b13;
+    --wallpaper-1: hsl(222 92% 50%);
+    --wallpaper-2: hsl(266 88% 58%);
+    --wallpaper-3: hsl(322 84% 52%);
+    --wallpaper-4: hsl(182 82% 42%);
+    --wallpaper-5: hsl(28 92% 52%);
+    --wallpaper-base-a: hsl(230 62% 15%);
+    --wallpaper-base-b: hsl(268 58% 17%);
+
+    --glass-bg: rgba(28, 31, 44, 0.5);
+    --glass-bg-strong: rgba(34, 38, 52, 0.62);
+    --glass-bg-elevated: rgba(46, 50, 66, 0.76);
+    --glass-border: rgba(255, 255, 255, 0.16);
+    --glass-inline: rgba(255, 255, 255, 0.08);
+    --glass-highlight: rgba(255, 255, 255, 0.22);
+    --glass-lowlight: rgba(0, 0, 0, 0.4);
+    --glass-tint: rgba(255, 255, 255, 0.04);
+    --glass-sheen: rgba(255, 255, 255, 0.1);
+    --glass-sheen-2: rgba(255, 255, 255, 0.05);
+    --glass-specular: inset 1px 1px 0 rgba(255, 255, 255, 0.22);
+    --glass-inner-glow: inset 0 0 18px rgba(255, 255, 255, 0.05);
+
+    --text-primary: rgba(255, 255, 255, 0.92);
+    --text-secondary: rgba(255, 255, 255, 0.62);
+    --text-tertiary: rgba(255, 255, 255, 0.42);
+    --separator: rgba(255, 255, 255, 0.12);
+    --fill-subtle: rgba(255, 255, 255, 0.06);
+    --fill-medium: rgba(255, 255, 255, 0.1);
+
+    --accent: hsl(var(--accent-h) 100% 62%);
+    --accent-strong: hsl(var(--accent-h) 100% 68%);
+
+    --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.5);
+    --shadow-2: 0 14px 40px rgba(0, 0, 0, 0.55), 0 3px 10px rgba(0, 0, 0, 0.4),
+      0 0 0 0.5px rgba(0, 0, 0, 0.4);
+    --shadow-3: 0 32px 80px rgba(0, 0, 0, 0.72), 0 12px 28px rgba(0, 0, 0, 0.5),
+      0 0 0 0.5px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* Explicit manual dark override */
+:root[data-theme='dark'] {
+  --bg-base: #090b13;
+  --wallpaper-1: hsl(222 92% 50%);
+  --wallpaper-2: hsl(266 88% 58%);
+  --wallpaper-3: hsl(322 84% 52%);
+  --wallpaper-4: hsl(182 82% 42%);
+  --wallpaper-5: hsl(28 92% 52%);
+  --wallpaper-base-a: hsl(230 62% 15%);
+  --wallpaper-base-b: hsl(268 58% 17%);
+
+  --glass-bg: rgba(28, 31, 44, 0.5);
+  --glass-bg-strong: rgba(34, 38, 52, 0.62);
+  --glass-bg-elevated: rgba(46, 50, 66, 0.76);
+  --glass-border: rgba(255, 255, 255, 0.16);
+  --glass-inline: rgba(255, 255, 255, 0.08);
+  --glass-highlight: rgba(255, 255, 255, 0.22);
+  --glass-lowlight: rgba(0, 0, 0, 0.4);
+  --glass-tint: rgba(255, 255, 255, 0.04);
+  --glass-sheen: rgba(255, 255, 255, 0.1);
+  --glass-sheen-2: rgba(255, 255, 255, 0.05);
+  --glass-specular: inset 1px 1px 0 rgba(255, 255, 255, 0.22);
+  --glass-inner-glow: inset 0 0 18px rgba(255, 255, 255, 0.05);
+
+  --text-primary: rgba(255, 255, 255, 0.92);
+  --text-secondary: rgba(255, 255, 255, 0.62);
+  --text-tertiary: rgba(255, 255, 255, 0.42);
+  --separator: rgba(255, 255, 255, 0.12);
+  --fill-subtle: rgba(255, 255, 255, 0.06);
+  --fill-medium: rgba(255, 255, 255, 0.1);
+
+  --accent: hsl(var(--accent-h) 100% 62%);
+  --accent-strong: hsl(var(--accent-h) 100% 68%);
+
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-2: 0 14px 40px rgba(0, 0, 0, 0.55), 0 3px 10px rgba(0, 0, 0, 0.4),
+    0 0 0 0.5px rgba(0, 0, 0, 0.4);
+  --shadow-3: 0 32px 80px rgba(0, 0, 0, 0.72), 0 12px 28px rgba(0, 0, 0, 0.5),
+    0 0 0 0.5px rgba(0, 0, 0, 0.5);
+}

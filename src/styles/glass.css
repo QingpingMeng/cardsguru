@@ -1,0 +1,120 @@
+/*
+ * Liquid Glass materials.
+ *
+ * .glass is the core translucent surface: a blurred, saturated backdrop with a
+ * specular top edge, a soft lower edge, and layered depth shadow.
+ */
+
+:root {
+  --glass-backdrop: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  --glass-backdrop-strong: blur(var(--glass-blur-strong)) saturate(var(--glass-saturate));
+}
+
+.glass {
+  position: relative;
+  border-radius: var(--radius-lg);
+  color: var(--text-primary);
+  background-color: var(--glass-bg);
+  background-image:
+    linear-gradient(150deg, var(--glass-sheen), transparent 44%),
+    radial-gradient(150% 110% at 0% 0%, var(--glass-sheen-2), transparent 56%);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  backdrop-filter: var(--glass-backdrop);
+  border: 0.5px solid var(--glass-border);
+  box-shadow:
+    var(--shadow-2),
+    var(--glass-specular),
+    var(--glass-inner-glow),
+    inset 0 -1px 0 var(--glass-lowlight);
+}
+
+.glass--strong {
+  background-color: var(--glass-bg-strong);
+  -webkit-backdrop-filter: var(--glass-backdrop-strong);
+  backdrop-filter: var(--glass-backdrop-strong);
+}
+
+.glass--elevated {
+  background-color: var(--glass-bg-elevated);
+  box-shadow:
+    var(--shadow-3),
+    var(--glass-specular),
+    var(--glass-inner-glow),
+    inset 0 -1px 0 var(--glass-lowlight);
+}
+
+.glass--flat {
+  box-shadow:
+    var(--glass-specular),
+    inset 0 -1px 0 var(--glass-lowlight);
+}
+
+/* Signature liquid-glass refraction: the SVG displacement filter warps the
+ * wallpaper behind each surface. Chromium (incl. the app's WebView) supports
+ * url() filters in backdrop-filter; other engines fall back to plain blur. */
+@supports ((backdrop-filter: url('#f')) or (-webkit-backdrop-filter: url('#f'))) {
+  :root {
+    --glass-backdrop: url(#lg-refraction) blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    --glass-backdrop-strong: url(#lg-refraction) blur(var(--glass-blur-strong))
+      saturate(var(--glass-saturate));
+  }
+}
+
+.glass--hairline {
+  border-radius: var(--radius-md);
+}
+
+/* Radius helpers */
+.r-sm {
+  border-radius: var(--radius-sm);
+}
+.r-md {
+  border-radius: var(--radius-md);
+}
+.r-lg {
+  border-radius: var(--radius-lg);
+}
+.r-xl {
+  border-radius: var(--radius-xl);
+}
+.r-pill {
+  border-radius: var(--radius-pill);
+}
+
+/* Interactive glass surfaces get a subtle hover lift + press feedback. */
+.glass-interactive {
+  cursor: pointer;
+  transition:
+    transform var(--dur-fast) var(--ease-spring),
+    box-shadow var(--dur-base) var(--ease-standard),
+    background-color var(--dur-base) var(--ease-standard);
+}
+
+.glass-interactive:hover {
+  transform: translateY(-1px);
+  background-color: var(--glass-bg-strong);
+}
+
+.glass-interactive:active {
+  transform: translateY(0) scale(0.985);
+}
+
+/* Fallback when backdrop-filter is unsupported: make surfaces opaque enough to read. */
+@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .glass,
+  .glass--strong,
+  .glass--elevated {
+    background-color: var(--glass-bg-elevated);
+  }
+}
+
+/* Text helpers used across surfaces */
+.text-secondary {
+  color: var(--text-secondary);
+}
+.text-tertiary {
+  color: var(--text-tertiary);
+}
+.text-accent {
+  color: var(--accent);
+}

@@ -1,0 +1,171 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--text-primary);
+  background: var(--bg-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow: hidden; /* app-shell scrolls internally */
+}
+
+/* Liquid Glass "desktop" wallpaper — a rich, vibrant macOS-style mesh field
+ * behind the glass. Five overlapping saturated blobs over a diagonal base wash
+ * give the frosted panels real color to blur, tint, and refract. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: -20%;
+  z-index: -1;
+  background:
+    radial-gradient(38vw 46vw at 10% 4%, var(--wallpaper-1), transparent 58%),
+    radial-gradient(44vw 50vw at 94% 0%, var(--wallpaper-2), transparent 56%),
+    radial-gradient(48vw 54vw at 84% 100%, var(--wallpaper-3), transparent 58%),
+    radial-gradient(42vw 50vw at 2% 96%, var(--wallpaper-4), transparent 56%),
+    radial-gradient(34vw 40vw at 52% 44%, var(--wallpaper-5), transparent 66%),
+    linear-gradient(155deg, var(--wallpaper-base-a), var(--wallpaper-base-b));
+  background-color: var(--bg-base);
+  filter: saturate(118%);
+  animation: wallpaper-drift 46s var(--ease-standard) infinite alternate;
+  will-change: transform;
+}
+
+/* Faint specular sheen sweeping the top of the desktop, like light on glass. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(120% 80% at 50% -20%, rgba(255, 255, 255, 0.22), transparent 60%);
+}
+
+@keyframes wallpaper-drift {
+  from {
+    transform: translate3d(-1.5%, -1%, 0) scale(1.02);
+  }
+  to {
+    transform: translate3d(1.5%, 1.5%, 0) scale(1.06);
+  }
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  letter-spacing: -0.01em;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  color: inherit;
+}
+
+::selection {
+  background: var(--accent-soft);
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* Slim, unobtrusive scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--fill-medium) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--fill-medium);
+  border-radius: var(--radius-pill);
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--text-tertiary);
+  background-clip: content-box;
+}
+
+/* Respect users who reduce transparency (system setting or manual override). */
+@media (prefers-reduced-transparency: reduce) {
+  :root:not([data-transparency='full']) {
+    --glass-blur: 0px;
+    --glass-blur-strong: 0px;
+    --glass-backdrop: none;
+    --glass-backdrop-strong: none;
+    --glass-bg: var(--glass-bg-elevated);
+    --glass-bg-strong: var(--glass-bg-elevated);
+  }
+}
+
+:root[data-transparency='reduced'] {
+  --glass-blur: 0px;
+  --glass-blur-strong: 0px;
+  --glass-backdrop: none;
+  --glass-backdrop-strong: none;
+  --glass-bg: var(--glass-bg-elevated);
+  --glass-bg-strong: var(--glass-bg-elevated);
+}
+
+/* Respect reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

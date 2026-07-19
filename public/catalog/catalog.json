@@ -1,0 +1,886 @@
+{
+  "schemaVersion": 1,
+  "catalogVersion": 4,
+  "updatedAt": "2026-07-19T18:00:00.000Z",
+  "issuers": [
+    { "id": "amex", "name": "American Express" },
+    { "id": "chase", "name": "Chase" },
+    { "id": "capitalone", "name": "Capital One" },
+    { "id": "citi", "name": "Citi" },
+    { "id": "boa", "name": "Bank of America" },
+    { "id": "wells", "name": "Wells Fargo" }
+  ],
+  "cards": [
+    {
+      "id": "amex-platinum",
+      "issuerId": "amex",
+      "name": "The Platinum Card",
+      "network": "amex",
+      "annualFee": 895,
+      "productUrl": "https://www.americanexpress.com/us/credit-cards/card/platinum/",
+      "artRef": "platinum",
+      "imageUrl": "https://icm.aexp-static.com/Internet/Acquisition/US_en/AppContent/OneSite/category/cardarts/platinum-card.png",
+      "benefits": [
+        {
+          "id": "amex-platinum:uber-cash",
+          "title": "Uber Cash",
+          "description": "Up to $15 in Uber Cash each month for U.S. rides and Uber Eats orders, plus a bonus $35 in December. Unused monthly credits expire.",
+          "category": "rideshare",
+          "value": { "amount": 15 },
+          "cap": "$200 per year including the December bonus",
+          "frequency": "monthly",
+          "resetAnchor": "calendar",
+          "enrollmentRequired": true,
+          "sourceUrl": "https://www.americanexpress.com/us/credit-cards/card/platinum/",
+          "validFrom": "2024-01-01"
+        },
+        {
+          "id": "amex-platinum:digital-entertainment",
+          "title": "Digital Entertainment Credit",
+          "description": "Up to $25 back each month on eligible digital subscriptions (Disney+, Hulu, ESPN+, Peacock, The New York Times, Wall Street Journal, YouTube Premium, SiriusXM, Audible).",
+          "category": "streaming",
+          "value": { "amount": 25 },
+          "frequency": "monthly",
+          "resetAnchor": "calendar",
+          "enrollmentRequired": true,
+          "sourceUrl": "https://www.americanexpress.com/us/credit-cards/card/platinum/",
+          "validFrom": "2024-01-01"
+        },
+        {
+          "id": "amex-platinum:saks",
+          "title": "Saks Fifth Avenue Credit",
+          "description": "Up to $50 in statement credits for purchases at Saks Fifth Avenue. Discontinued by Amex effective July 1, 2026.",
+          "category": "shopping",
+          "value": { "amount": 50 },
+          "cap": "$50 Jan–Jun and $50 Jul–Dec",
+          "frequency": "semiannual",
+          "resetAnchor": "calendar",
+          "enrollmentRequired": true,
+          "sourceUrl": "https://www.americanexpress.com/us/credit-cards/card/platinum/",
+          "validFrom": "2024-01-01",
+          "validTo": "2026-07-01"
+        },
+        {
+          "id": "amex-platinum:airline-fee",
+          "title": "Airline Fee Credit",
+          "description": "Up to $200 in statement credits for incidental fees (checked bags, seat selection, etc.) with one selected airline.",
+          "category": "airline",
+          "value": { "amount": 200 },
+          "frequency": "annual",
+          "resetAnchor": "calendar",
+          "enrollmentRequired": true,
+          "terms": "Select one qualifying airline each year. Airfare and upgrades are not eligible.",
+          "sourceUrl": "https://www.americanexpress.com/us/credit-cards/card/platinum/",
+          "validFrom": "2024-01-01"
+        },
+        {
+          "id": "amex-platinum:hotel-credit",
+          "title": "Fine Hotels + Resorts / The Hotel Collection Credit",
+          "description": "Up to $300 each half-year (up to $600 per year) on prepaid Fine Hotels + Resorts or The Hotel Collection bookings through Amex Travel.",
+          "category": "hotel",
+          "value": { "amount": 300 },
+          "cap": "$300 Jan–Jun and $300 Jul–Dec",
+          "frequency": "semiannual",
+          "resetAnchor": "calendar",
+          "terms": "The Hotel Collection requires a minimum two-night stay. Prepaid rate required.",
+          "sourceUrl": "https://www.americanexpress.com/us/credit-cards/card/platinum/",
+          "validFrom": "2024-01-01"
+        },
+        {
+          "id": "amex-platinum:walmart-plus",
+          "title": "Walmart+ Membership Credit",
+          "description": "Statement credit covering a monthly Walmart+ membership (plus applicable taxes).",
+          "category": "shopping",
+          "value": { "amount": 12.95 },
+          "frequency": "monthly",
+          "resetAnchor": "calendar",
+          "enrollmentRequired": true,
+          "sourceUrl": "https://www.americanexpress.com/us/credit-cards/card/platinum/",
+          "validFrom": "2024-01-01"
+        },
+        {
+          "id": "amex-platinum:clear-plus",
+          "title": "CLEAR Plus Credit",
+          "description": "Up to $209 back on a CLEAR Plus membership for faster airport security.",
+          "category": "travel",
+          "value": { "amount": 209 },
+          "frequency": "annual",
+          "resetAnchor": "calendar",
+          "enrollmentRequired": true,
+          "sourceUrl": "https://www.americanexpress.com/us/credit-cards/card/platinum/",
+          "validFrom": "2024-01-01"
+        },
+        {
+          "id": "amex-platinum:resy",
+          "title": "Resy Dining Credit",
+          "description": "Up to $100 each quarter (up to $400 per year) at Resy-participating U.S. restaurants.",
+          "category": "dining",
+          "value": { "amount": 100 },
+          "frequency": "quarterly",
+          "resetAnchor": "calendar",
+          "enrollmentRequired": true,
+          "sourceUrl": "https://www.americanexpress.com/us/credit-cards/card/platinum/",
+          "validFrom": "2025-10-01"
+        },
+        {
+          "id": "amex-platinum:uber-one",
+          "title": "Uber One Membership Credit",
+          "description": "Up to $120 per year toward an Uber One membership subscription.",
+          "category": "rideshare",
+          "value": { "amount": 120 },
+          "frequency": "annual",
+          "resetAnchor": "calendar",
+          "enrollmentRequired": true,
+          "sourceUrl": "https://www.americanexpress.com/us/credit-cards/card/platinum/",
+          "validFrom": "2025-10-01"
+        },
+        {
+          "id": "amex-platinum:lululemon",
+          "title": "Lululemon Credit",
+          "description": "Up to $75 each quarter (up to $300 per year) on Lululemon purchases in-store or online.",
+          "category": "shopping",
+          "value": { "amount": 75 },
+          "frequency": "quarterly",
+          "resetAnchor": "calendar",
+          "enrollmentRequired": true,
+          "sourceUrl": "https://www.americanexpress.com/us/credit-cards/card/platinum/",
+          "validFrom": "2025-10-01"
+        },
+        {
+          "id": "amex-platinum:oura",
+          "title": "Oura Ring Credit",
+          "description": "Up to $200 per year on an Oura Ring and Oura membership.",
+          "category": "wellness",
+          "value": { "amount": 200 },
+          "frequency": "annual",
+          "resetAnchor": "calendar",
+          "enrollmentRequired": true,
+          "sourceUrl": "https://www.americanexpress.com/us/credit-cards/card/platinum/",
+          "validFrom": "2025-10-01"
+        },
+        {
+          "id": "amex-platinum:equinox",
+          "title": "Equinox Credit",
+          "description": "Up to $300 per year on Equinox club memberships or Equinox+ digital subscriptions.",
+          "category": "wellness",
+          "value": { "amount": 300 },
+          "frequency": "annual",
+          "resetAnchor": "calendar",
+          "enrollmentRequired": true,
+          "sourceUrl": "https://www.americanexpress.com/us/credit-cards/card/platinum/",
+          "validFrom": "2025-10-01"
+        }
+      ]
+    },
+    {
+      "id": "amex-gold",
+      "issuerId": "amex",
+      "name": "American Express Gold Card",
+      "network": "amex",
+      "annualFee": 325,
+      "productUrl": "https://www.americanexpress.com/us/credit-cards/card/gold-card/",
+      "artRef": "gold",
+      "imageUrl": "https://icm.aexp-static.com/Internet/Acquisition/US_en/AppContent/OneSite/category/cardarts/gold-card.png",
+      "benefits": [
+        {
+          "id": "amex-gold:uber-cash",
+          "title": "Uber Cash",
+          "description": "Up to $10 in Uber Cash each month for U.S. Uber rides and Uber Eats orders.",
+          "category": "rideshare",
+          "value": { "amount": 10 },
+          "frequency": "monthly",
+          "resetAnchor": "calendar",
+          "enrollmentRequired": true,
+          "sourceUrl": "https://www.americanexpress.com/us/credit-cards/card/gold-card/",
+          "validFrom": "2024-06-01"
+        },
+        {
+          "id": "amex-gold:dining",
+          "title": "Dining Credit",
+          "description": "Up to $10 back monthly at Grubhub, The Cheesecake Factory, Goldbelly, Wine.com, Milk Bar, and Five Guys.",
+          "category": "dining",
+          "value": { "amount": 10 },
+          "frequency": "monthly",
+          "resetAnchor": "calendar",
+          "enrollmentRequired": true,
+          "sourceUrl": "https://www.americanexpress.com/us/credit-cards/card/gold-card/",
+          "validFrom": "2024-06-01"
+        },
+        {
+          "id": "amex-gold:dunkin",
+          "title": "Dunkin' Credit",
+          "description": "Up to $7 back monthly at Dunkin' locations in the U.S.",
+          "category": "dining",
+          "value": { "amount": 7 },
+          "frequency": "monthly",
+          "resetAnchor": "calendar",
+          "enrollmentRequired": true,
+          "sourceUrl": "https://www.americanexpress.com/us/credit-cards/card/gold-card/",
+          "validFrom": "2024-06-01"
+        },
+        {
+          "id": "amex-gold:resy",
+          "title": "Resy Credit",
+          "description": "Up to $50 back on Resy restaurant purchases in the U.S.",
+          "category": "dining",
+          "value": { "amount": 50 },
+          "cap": "$50 Jan–Jun and $50 Jul–Dec",
+          "frequency": "semiannual",
+          "resetAnchor": "calendar",
+          "enrollmentRequired": true,
+          "sourceUrl": "https://www.americanexpress.com/us/credit-cards/card/gold-card/",
+          "validFrom": "2024-06-01"
+        }
+      ]
+    },
+    {
+      "id": "amex-green",
+      "issuerId": "amex",
+      "name": "American Express Green Card",
+      "network": "amex",
+      "annualFee": 150,
+      "productUrl": "https://www.americanexpress.com/us/credit-cards/card/green/",
+      "artRef": "green",
+      "imageUrl": "https://icm.aexp-static.com/Internet/Acquisition/US_en/AppContent/OneSite/category/cardarts/green-card.png",
+      "benefits": [
+        {
+          "id": "amex-green:clear-plus",
+          "title": "CLEAR Plus Credit",
+          "description": "Up to $209 back on a CLEAR Plus membership for faster airport security.",
+          "category": "travel",
+          "value": { "amount": 209 },
+          "frequency": "annual",
+          "resetAnchor": "calendar",
+          "enrollmentRequired": true,
+          "sourceUrl": "https://www.americanexpress.com/us/credit-cards/card/green/",
+          "validFrom": "2024-01-01"
+        }
+      ]
+    },
+    {
+      "id": "chase-sapphire-reserve",
+      "issuerId": "chase",
+      "name": "Chase Sapphire Reserve",
+      "network": "visa",
+      "annualFee": 795,
+      "productUrl": "https://www.chase.com/personal/credit-cards/sapphire/reserve",
+      "artRef": "sapphire-reserve",
+      "benefits": [
+        {
+          "id": "chase-sapphire-reserve:travel",
+          "title": "Annual Travel Credit",
+          "description": "$300 in automatic statement credits toward a broad range of travel purchases.",
+          "category": "travel",
+          "value": { "amount": 300 },
+          "frequency": "annual",
+          "resetAnchor": "anniversary",
+          "sourceUrl": "https://www.chase.com/personal/credit-cards/sapphire/reserve",
+          "validFrom": "2025-06-23"
+        },
+        {
+          "id": "chase-sapphire-reserve:edit-hotel",
+          "title": "The Edit Hotel Credit",
+          "description": "Up to $250 back on prepaid stays of two or more nights booked through The Edit by Chase Travel.",
+          "category": "hotel",
+          "value": { "amount": 250 },
+          "cap": "$250 Jan–Jun and $250 Jul–Dec (up to $500 per year)",
+          "frequency": "semiannual",
+          "resetAnchor": "calendar",
+          "sourceUrl": "https://www.chase.com/personal/credit-cards/sapphire/reserve",
+          "validFrom": "2025-06-23"
+        },
+        {
+          "id": "chase-sapphire-reserve:dining",
+          "title": "Dining Credit",
+          "description": "Up to $150 back at Sapphire Reserve Exclusive Tables restaurants booked through OpenTable.",
+          "category": "dining",
+          "value": { "amount": 150 },
+          "cap": "$150 Jan–Jun and $150 Jul–Dec",
+          "frequency": "semiannual",
+          "resetAnchor": "calendar",
+          "sourceUrl": "https://www.chase.com/personal/credit-cards/sapphire/reserve",
+          "validFrom": "2025-06-23"
+        },
+        {
+          "id": "chase-sapphire-reserve:stubhub",
+          "title": "StubHub / viagogo Credit",
+          "description": "Up to $150 back on concert and event tickets purchased through StubHub or viagogo.",
+          "category": "entertainment",
+          "value": { "amount": 150 },
+          "cap": "$150 Jan–Jun and $150 Jul–Dec",
+          "frequency": "semiannual",
+          "resetAnchor": "calendar",
+          "enrollmentRequired": true,
+          "sourceUrl": "https://www.chase.com/personal/credit-cards/sapphire/reserve",
+          "validFrom": "2025-06-23"
+        },
+        {
+          "id": "chase-sapphire-reserve:doordash",
+          "title": "DoorDash Credit",
+          "description": "Up to $25 in monthly DoorDash credits: a $5 restaurant promo plus two $10 non-restaurant promos.",
+          "category": "dining",
+          "value": { "amount": 25 },
+          "cap": "$5 restaurant + two $10 non-restaurant promos",
+          "frequency": "monthly",
+          "resetAnchor": "calendar",
+          "enrollmentRequired": true,
+          "sourceUrl": "https://www.chase.com/personal/credit-cards/sapphire/reserve",
+          "validFrom": "2025-06-23"
+        },
+        {
+          "id": "chase-sapphire-reserve:lyft",
+          "title": "Lyft Credit",
+          "description": "Up to $10 in in-app Lyft credit each month.",
+          "category": "rideshare",
+          "value": { "amount": 10 },
+          "frequency": "monthly",
+          "resetAnchor": "calendar",
+          "enrollmentRequired": true,
+          "terms": "Benefit valid through September 30, 2027.",
+          "sourceUrl": "https://www.chase.com/personal/credit-cards/sapphire/reserve",
+          "validFrom": "2025-06-23",
+          "validTo": "2027-09-30"
+        },
+        {
+          "id": "chase-sapphire-reserve:peloton",
+          "title": "Peloton Membership Credit",
+          "description": "Up to $10 back each month on a Peloton All-Access, App+, or App One membership.",
+          "category": "wellness",
+          "value": { "amount": 10 },
+          "frequency": "monthly",
+          "resetAnchor": "calendar",
+          "terms": "Benefit valid through December 31, 2027.",
+          "sourceUrl": "https://www.chase.com/personal/credit-cards/sapphire/reserve",
+          "validFrom": "2025-06-23",
+          "validTo": "2027-12-31"
+        },
+        {
+          "id": "chase-sapphire-reserve:apple",
+          "title": "Apple TV+ & Apple Music",
+          "description": "Complimentary Apple TV+ and Apple Music subscriptions after activation.",
+          "category": "streaming",
+          "frequency": "monthly",
+          "resetAnchor": "calendar",
+          "enrollmentRequired": true,
+          "terms": "Activate through Chase. Offer valid through June 22, 2027.",
+          "sourceUrl": "https://www.chase.com/personal/credit-cards/sapphire/reserve",
+          "validFrom": "2025-06-23",
+          "validTo": "2027-06-22"
+        }
+      ]
+    },
+    {
+      "id": "chase-sapphire-preferred",
+      "issuerId": "chase",
+      "name": "Chase Sapphire Preferred",
+      "network": "visa",
+      "annualFee": 95,
+      "productUrl": "https://www.chase.com/personal/credit-cards/sapphire/preferred",
+      "artRef": "sapphire-preferred",
+      "benefits": [
+        {
+          "id": "chase-sapphire-preferred:hotel",
+          "title": "Annual Hotel Credit",
+          "description": "Up to $100 back on hotel stays booked through Chase Travel.",
+          "category": "hotel",
+          "value": { "amount": 100 },
+          "frequency": "annual",
+          "resetAnchor": "anniversary",
+          "sourceUrl": "https://www.chase.com/personal/credit-cards/sapphire/preferred",
+          "validFrom": "2024-01-01"
+        },
+        {
+          "id": "chase-sapphire-preferred:doordash",
+          "title": "DoorDash Credit",
+          "description": "Up to $10 in monthly DoorDash credit for non-restaurant orders (grocery, convenience, retail).",
+          "category": "grocery",
+          "value": { "amount": 10 },
+          "frequency": "monthly",
+          "resetAnchor": "calendar",
+          "enrollmentRequired": true,
+          "terms": "Complimentary DashPass and monthly promo through 2027.",
+          "sourceUrl": "https://www.chase.com/personal/credit-cards/sapphire/preferred",
+          "validFrom": "2024-01-01",
+          "validTo": "2027-12-31"
+        }
+      ]
+    },
+    {
+      "id": "capitalone-venture-x",
+      "issuerId": "capitalone",
+      "name": "Capital One Venture X",
+      "network": "visa",
+      "annualFee": 395,
+      "productUrl": "https://www.capitalone.com/credit-cards/venture-x/",
+      "artRef": "venture-x",
+      "imageUrl": "https://ecm.capitalone.com/WCM/card/products/venture-x-card-art.png",
+      "benefits": [
+        {
+          "id": "capitalone-venture-x:travel",
+          "title": "Annual Travel Credit",
+          "description": "$300 to use on bookings made through Capital One Travel (flights, hotels, and car rentals).",
+          "category": "travel",
+          "value": { "amount": 300 },
+          "frequency": "annual",
+          "resetAnchor": "anniversary",
+          "sourceUrl": "https://www.capitalone.com/credit-cards/venture-x/",
+          "validFrom": "2024-01-01"
+        },
+        {
+          "id": "capitalone-venture-x:anniversary-miles",
+          "title": "Anniversary Bonus Miles",
+          "description": "10,000 bonus miles (worth about $100 toward travel) every year after your account anniversary.",
+          "category": "rewards",
+          "frequency": "annual",
+          "resetAnchor": "anniversary",
+          "sourceUrl": "https://www.capitalone.com/credit-cards/venture-x/",
+          "validFrom": "2024-01-01"
+        }
+      ]
+    },
+    {
+      "id": "amex-marriott-brilliant",
+      "issuerId": "amex",
+      "name": "Marriott Bonvoy Brilliant American Express Card",
+      "network": "amex",
+      "annualFee": 650,
+      "productUrl": "https://www.americanexpress.com/us/credit-cards/card/marriott-bonvoy-brilliant/",
+      "artRef": "marriott-brilliant",
+      "imageUrl": "https://icm.aexp-static.com/Internet/Acquisition/US_en/AppContent/OneSite/category/cardarts/marriott-bonvoy-brilliant-card.png",
+      "benefits": [
+        {
+          "id": "amex-marriott-brilliant:dining",
+          "title": "Dining Credit",
+          "description": "Up to $25 back each month on eligible dining purchases worldwide.",
+          "category": "dining",
+          "value": { "amount": 25 },
+          "frequency": "monthly",
+          "resetAnchor": "calendar",
+          "enrollmentRequired": true,
+          "sourceUrl": "https://www.americanexpress.com/us/credit-cards/card/marriott-bonvoy-brilliant/",
+          "validFrom": "2024-01-01"
+        },
+        {
+          "id": "amex-marriott-brilliant:free-night",
+          "title": "Annual Free Night Award",
+          "description": "One Free Night Award (redemption level up to 85,000 points) each year after your card renewal.",
+          "category": "hotel",
+          "frequency": "annual",
+          "resetAnchor": "anniversary",
+          "terms": "Certain hotels have resort fees. Award expires if unused within its validity window.",
+          "sourceUrl": "https://www.americanexpress.com/us/credit-cards/card/marriott-bonvoy-brilliant/",
+          "validFrom": "2024-01-01"
+        }
+      ]
+    },
+    {
+      "id": "amex-hilton-aspire",
+      "issuerId": "amex",
+      "name": "Hilton Honors American Express Aspire Card",
+      "network": "amex",
+      "annualFee": 550,
+      "productUrl": "https://www.americanexpress.com/us/credit-cards/card/hilton-aspire/",
+      "artRef": "hilton-aspire",
+      "imageUrl": "https://icm.aexp-static.com/Internet/Acquisition/US_en/AppContent/OneSite/category/cardarts/hilton-honors-aspire.png",
+      "benefits": [
+        {
+          "id": "amex-hilton-aspire:resort-credit",
+          "title": "Hilton Resort Credit",
+          "description": "Up to $200 back on eligible purchases at participating Hilton Resorts.",
+          "category": "hotel",
+          "value": { "amount": 200 },
+          "cap": "$200 Jan–Jun and $200 Jul–Dec",
+          "frequency": "semiannual",
+          "resetAnchor": "calendar",
+          "enrollmentRequired": true,
+          "sourceUrl": "https://www.americanexpress.com/us/credit-cards/card/hilton-aspire/",
+          "validFrom": "2024-01-01"
+        },
+        {
+          "id": "amex-hilton-aspire:flight-credit",
+          "title": "Airline Flight Credit",
+          "description": "Up to $50 back each quarter on eligible flight purchases.",
+          "category": "airline",
+          "value": { "amount": 50 },
+          "cap": "$50 per quarter, up to $200 per year",
+          "frequency": "quarterly",
+          "resetAnchor": "calendar",
+          "enrollmentRequired": true,
+          "sourceUrl": "https://www.americanexpress.com/us/credit-cards/card/hilton-aspire/",
+          "validFrom": "2024-01-01"
+        },
+        {
+          "id": "amex-hilton-aspire:free-night",
+          "title": "Annual Free Night Reward",
+          "description": "One Free Night Reward each year, with the opportunity to earn additional nights through qualifying spend.",
+          "category": "hotel",
+          "frequency": "annual",
+          "resetAnchor": "anniversary",
+          "sourceUrl": "https://www.americanexpress.com/us/credit-cards/card/hilton-aspire/",
+          "validFrom": "2024-01-01"
+        },
+        {
+          "id": "amex-hilton-aspire:clear-plus",
+          "title": "CLEAR Plus Credit",
+          "description": "Up to $209 back on a CLEAR Plus membership for faster airport security.",
+          "category": "travel",
+          "value": { "amount": 209 },
+          "frequency": "annual",
+          "resetAnchor": "calendar",
+          "enrollmentRequired": true,
+          "sourceUrl": "https://www.americanexpress.com/us/credit-cards/card/hilton-aspire/",
+          "validFrom": "2024-01-01"
+        }
+      ]
+    },
+    {
+      "id": "amex-delta-reserve",
+      "issuerId": "amex",
+      "name": "Delta SkyMiles Reserve American Express Card",
+      "network": "amex",
+      "annualFee": 650,
+      "productUrl": "https://www.americanexpress.com/us/credit-cards/card/delta-reserve/",
+      "artRef": "delta-reserve",
+      "imageUrl": "https://icm.aexp-static.com/Internet/Acquisition/US_en/AppContent/OneSite/category/cardarts/delta-reserve.png",
+      "benefits": [
+        {
+          "id": "amex-delta-reserve:resy",
+          "title": "Resy Dining Credit",
+          "description": "Up to $20 back each month on eligible U.S. Resy restaurant purchases.",
+          "category": "dining",
+          "value": { "amount": 20 },
+          "frequency": "monthly",
+          "resetAnchor": "calendar",
+          "enrollmentRequired": true,
+          "sourceUrl": "https://www.americanexpress.com/us/credit-cards/card/delta-reserve/",
+          "validFrom": "2024-10-01"
+        },
+        {
+          "id": "amex-delta-reserve:rideshare",
+          "title": "Rideshare Credit",
+          "description": "Up to $10 back each month on eligible U.S. rideshare purchases (Uber, Lyft, and more).",
+          "category": "rideshare",
+          "value": { "amount": 10 },
+          "frequency": "monthly",
+          "resetAnchor": "calendar",
+          "enrollmentRequired": true,
+          "sourceUrl": "https://www.americanexpress.com/us/credit-cards/card/delta-reserve/",
+          "validFrom": "2024-10-01"
+        },
+        {
+          "id": "amex-delta-reserve:companion",
+          "title": "Annual Companion Certificate",
+          "description": "A Companion Certificate good for a round-trip Main Cabin, Comfort+, or First Class companion ticket each year after renewal.",
+          "category": "travel",
+          "frequency": "annual",
+          "resetAnchor": "anniversary",
+          "terms": "Taxes and fees from $23 apply. Valid on select domestic and international routes.",
+          "sourceUrl": "https://www.americanexpress.com/us/credit-cards/card/delta-reserve/",
+          "validFrom": "2024-01-01"
+        },
+        {
+          "id": "amex-delta-reserve:delta-stays",
+          "title": "Delta Stays Credit",
+          "description": "Up to $200 per year on prepaid hotels and vacation packages booked through Delta Stays at delta.com/stays.",
+          "category": "hotel",
+          "value": { "amount": 200 },
+          "frequency": "annual",
+          "resetAnchor": "calendar",
+          "sourceUrl": "https://www.americanexpress.com/us/credit-cards/card/delta-reserve/",
+          "validFrom": "2025-01-01"
+        }
+      ]
+    },
+    {
+      "id": "citi-strata-premier",
+      "issuerId": "citi",
+      "name": "Citi Strata Premier Card",
+      "network": "mastercard",
+      "annualFee": 95,
+      "productUrl": "https://www.citi.com/credit-cards/citi-strata-premier-credit-card",
+      "artRef": "strata-premier",
+      "imageUrl": "https://aemapi.citi.com/content/dam/cfs/uspb/usmkt/cards/en/static/images/citi-strata-premier-credit-card/citi-strata-premier-credit-card_306x192.webp",
+      "benefits": [
+        {
+          "id": "citi-strata-premier:hotel",
+          "title": "Annual Hotel Credit",
+          "description": "$100 off a single hotel stay of $500 or more (excluding taxes and fees) booked through CitiTravel.com.",
+          "category": "hotel",
+          "value": { "amount": 100 },
+          "frequency": "annual",
+          "resetAnchor": "calendar",
+          "sourceUrl": "https://www.citi.com/credit-cards/citi-strata-premier-credit-card",
+          "validFrom": "2024-01-01"
+        }
+      ]
+    },
+    {
+      "id": "citi-strata-elite",
+      "issuerId": "citi",
+      "name": "Citi Strata Elite Card",
+      "network": "mastercard",
+      "annualFee": 595,
+      "productUrl": "https://www.citi.com/credit-cards/citi-strata-elite-credit-card",
+      "artRef": "strata-elite",
+      "imageUrl": "https://aemapi.citi.com/content/dam/cfs/uspb/usmkt/cards/en/static/images/citi-strata-elite-credit-card/citi-strata-elite-credit-card_306x192.webp",
+      "benefits": [
+        {
+          "id": "citi-strata-elite:hotel-credit",
+          "title": "Annual Hotel Credit",
+          "description": "Up to $300 off a hotel stay of two or more nights booked through CitiTravel.com.",
+          "category": "hotel",
+          "value": { "amount": 300 },
+          "frequency": "annual",
+          "resetAnchor": "calendar",
+          "terms": "Minimum two-night stay required.",
+          "sourceUrl": "https://www.citi.com/credit-cards/citi-strata-elite-credit-card",
+          "validFrom": "2025-01-01"
+        },
+        {
+          "id": "citi-strata-elite:splurge-credit",
+          "title": "Splurge Credit",
+          "description": "Up to $200 per year with one or two selected partner merchants (1stDibs, American Airlines, Best Buy, Future Personal Training, or Live Nation).",
+          "category": "shopping",
+          "value": { "amount": 200 },
+          "frequency": "annual",
+          "resetAnchor": "calendar",
+          "enrollmentRequired": true,
+          "terms": "Select up to two participating merchants.",
+          "sourceUrl": "https://www.citi.com/credit-cards/citi-strata-elite-credit-card",
+          "validFrom": "2025-01-01"
+        },
+        {
+          "id": "citi-strata-elite:blacklane-credit",
+          "title": "Blacklane Credit",
+          "description": "Up to $100 each half-year (up to $200 per year) on Blacklane airport chauffeur service.",
+          "category": "travel",
+          "value": { "amount": 100 },
+          "frequency": "semiannual",
+          "resetAnchor": "calendar",
+          "sourceUrl": "https://www.citi.com/credit-cards/citi-strata-elite-credit-card",
+          "validFrom": "2025-01-01"
+        },
+        {
+          "id": "citi-strata-elite:admirals-club",
+          "title": "Admirals Club Passes",
+          "description": "Four American Airlines Admirals Club single-visit passes each year.",
+          "category": "travel",
+          "frequency": "annual",
+          "resetAnchor": "calendar",
+          "sourceUrl": "https://www.citi.com/credit-cards/citi-strata-elite-credit-card",
+          "validFrom": "2025-01-01"
+        }
+      ]
+    },
+    {
+      "id": "boa-premium-rewards-elite",
+      "issuerId": "boa",
+      "name": "Bank of America Premium Rewards Elite Card",
+      "network": "visa",
+      "annualFee": 550,
+      "productUrl": "https://www.bankofamerica.com/credit-cards/products/premium-rewards-elite-credit-card/",
+      "artRef": "premium-rewards-elite",
+      "benefits": [
+        {
+          "id": "boa-premium-rewards-elite:airline-incidental",
+          "title": "Airline Incidental Credit",
+          "description": "Up to $300 per year in statement credits for airline incidental fees (seat selection, checked bags, lounge access). Airfare is not eligible.",
+          "category": "airline",
+          "value": { "amount": 300 },
+          "frequency": "annual",
+          "resetAnchor": "calendar",
+          "sourceUrl": "https://www.bankofamerica.com/credit-cards/products/premium-rewards-elite-credit-card/",
+          "validFrom": "2024-01-01"
+        },
+        {
+          "id": "boa-premium-rewards-elite:lifestyle-credit",
+          "title": "Lifestyle Convenience Credit",
+          "description": "Up to $150 per year on rideshare, food delivery, streaming, and fitness subscription purchases.",
+          "category": "other",
+          "value": { "amount": 150 },
+          "frequency": "annual",
+          "resetAnchor": "calendar",
+          "sourceUrl": "https://www.bankofamerica.com/credit-cards/products/premium-rewards-elite-credit-card/",
+          "validFrom": "2024-01-01"
+        }
+      ]
+    },
+    {
+      "id": "chase-ritz-carlton",
+      "issuerId": "chase",
+      "name": "The Ritz-Carlton Credit Card",
+      "network": "visa",
+      "annualFee": 450,
+      "productUrl": "https://www.chase.com/personal/credit-cards",
+      "artRef": "ritz-carlton",
+      "benefits": [
+        {
+          "id": "chase-ritz-carlton:airline-incidental",
+          "title": "Airline Incidental Credit",
+          "description": "Up to $300 per year in statement credits for airline incidental purchases (baggage, seat upgrades, lounge passes). Call Chase to request reimbursement. Airfare is not eligible.",
+          "category": "airline",
+          "value": { "amount": 300 },
+          "frequency": "annual",
+          "resetAnchor": "calendar",
+          "sourceUrl": "https://www.chase.com/personal/credit-cards",
+          "validFrom": "2024-01-01"
+        },
+        {
+          "id": "chase-ritz-carlton:free-night",
+          "title": "Annual Free Night Award",
+          "description": "One Free Night Award (redemption level up to 85,000 points) each year after your account anniversary.",
+          "category": "hotel",
+          "frequency": "annual",
+          "resetAnchor": "anniversary",
+          "sourceUrl": "https://www.chase.com/personal/credit-cards",
+          "validFrom": "2024-01-01"
+        }
+      ]
+    },
+    {
+      "id": "amex-hilton-surpass",
+      "issuerId": "amex",
+      "name": "Hilton Honors American Express Surpass Card",
+      "network": "amex",
+      "annualFee": 150,
+      "productUrl": "https://www.americanexpress.com/us/credit-cards/card/hilton-honors-surpass/",
+      "artRef": "hilton-surpass",
+      "imageUrl": "https://icm.aexp-static.com/Internet/Acquisition/US_en/AppContent/OneSite/category/cardarts/hilton-honors-surpass.png",
+      "benefits": [
+        {
+          "id": "amex-hilton-surpass:hilton-credit",
+          "title": "Hilton Credit",
+          "description": "Up to $50 back each quarter (up to $200 per year) on eligible purchases at any Hilton property.",
+          "category": "hotel",
+          "value": { "amount": 50 },
+          "frequency": "quarterly",
+          "resetAnchor": "calendar",
+          "sourceUrl": "https://www.americanexpress.com/us/credit-cards/card/hilton-honors-surpass/",
+          "validFrom": "2025-01-01"
+        },
+        {
+          "id": "amex-hilton-surpass:free-night",
+          "title": "Weekend Free Night Reward",
+          "description": "One Free Night Reward after you spend $15,000 in eligible purchases on the card in a calendar year.",
+          "category": "hotel",
+          "frequency": "annual",
+          "resetAnchor": "calendar",
+          "terms": "Requires $15,000 in eligible purchases within the calendar year.",
+          "sourceUrl": "https://www.americanexpress.com/us/credit-cards/card/hilton-honors-surpass/",
+          "validFrom": "2024-01-01"
+        }
+      ]
+    },
+    {
+      "id": "chase-world-of-hyatt",
+      "issuerId": "chase",
+      "name": "World of Hyatt Credit Card",
+      "network": "visa",
+      "annualFee": 95,
+      "productUrl": "https://www.chase.com/personal/credit-cards/hyatt",
+      "artRef": "world-of-hyatt",
+      "benefits": [
+        {
+          "id": "chase-world-of-hyatt:free-night",
+          "title": "Anniversary Free Night",
+          "description": "One Free Night Award at any Category 1-4 Hyatt hotel each year after your account anniversary. Expires one year after issuance.",
+          "category": "hotel",
+          "frequency": "annual",
+          "resetAnchor": "anniversary",
+          "sourceUrl": "https://www.chase.com/personal/credit-cards/hyatt",
+          "validFrom": "2024-01-01"
+        },
+        {
+          "id": "chase-world-of-hyatt:spend-free-night",
+          "title": "Spend-Based Free Night",
+          "description": "A second Category 1-4 Free Night Award after you spend $15,000 in eligible purchases in a calendar year.",
+          "category": "hotel",
+          "frequency": "annual",
+          "resetAnchor": "calendar",
+          "terms": "Requires $15,000 in eligible purchases within the calendar year.",
+          "sourceUrl": "https://www.chase.com/personal/credit-cards/hyatt",
+          "validFrom": "2024-01-01"
+        }
+      ]
+    },
+    {
+      "id": "amex-delta-platinum",
+      "issuerId": "amex",
+      "name": "Delta SkyMiles Platinum American Express Card",
+      "network": "amex",
+      "annualFee": 350,
+      "productUrl": "https://www.americanexpress.com/us/credit-cards/card/delta-platinum/",
+      "artRef": "delta-platinum",
+      "benefits": [
+        {
+          "id": "amex-delta-platinum:resy",
+          "title": "Resy Dining Credit",
+          "description": "Up to $10 back each month on eligible U.S. Resy restaurant purchases.",
+          "category": "dining",
+          "value": { "amount": 10 },
+          "frequency": "monthly",
+          "resetAnchor": "calendar",
+          "enrollmentRequired": true,
+          "sourceUrl": "https://www.americanexpress.com/us/credit-cards/card/delta-platinum/",
+          "validFrom": "2025-01-01"
+        },
+        {
+          "id": "amex-delta-platinum:rideshare",
+          "title": "Rideshare Credit",
+          "description": "Up to $10 back each month on eligible U.S. rideshare purchases (Uber, Lyft, and more).",
+          "category": "rideshare",
+          "value": { "amount": 10 },
+          "frequency": "monthly",
+          "resetAnchor": "calendar",
+          "enrollmentRequired": true,
+          "sourceUrl": "https://www.americanexpress.com/us/credit-cards/card/delta-platinum/",
+          "validFrom": "2025-01-01"
+        },
+        {
+          "id": "amex-delta-platinum:delta-stays",
+          "title": "Delta Stays Credit",
+          "description": "Up to $150 per year on prepaid hotels and vacation packages booked through Delta Stays at delta.com/stays.",
+          "category": "hotel",
+          "value": { "amount": 150 },
+          "frequency": "annual",
+          "resetAnchor": "calendar",
+          "sourceUrl": "https://www.americanexpress.com/us/credit-cards/card/delta-platinum/",
+          "validFrom": "2025-01-01"
+        },
+        {
+          "id": "amex-delta-platinum:companion",
+          "title": "Annual Companion Certificate",
+          "description": "A Companion Certificate good for a round-trip Main Cabin companion ticket each year after renewal.",
+          "category": "travel",
+          "frequency": "annual",
+          "resetAnchor": "anniversary",
+          "terms": "Taxes and fees apply. Valid on select domestic routes.",
+          "sourceUrl": "https://www.americanexpress.com/us/credit-cards/card/delta-platinum/",
+          "validFrom": "2024-01-01"
+        }
+      ]
+    },
+    {
+      "id": "wells-autograph-journey",
+      "issuerId": "wells",
+      "name": "Wells Fargo Autograph Journey Card",
+      "network": "visa",
+      "annualFee": 95,
+      "productUrl": "https://creditcards.wellsfargo.com/autograph-journey-visa-credit-card/",
+      "artRef": "autograph-journey",
+      "benefits": [
+        {
+          "id": "wells-autograph-journey:airline-credit",
+          "title": "Annual Airline Credit",
+          "description": "Up to $50 in statement credits each year for airline purchases, including airfare, after a qualifying $50+ airline purchase.",
+          "category": "airline",
+          "value": { "amount": 50 },
+          "frequency": "annual",
+          "resetAnchor": "anniversary",
+          "sourceUrl": "https://creditcards.wellsfargo.com/autograph-journey-visa-credit-card/",
+          "validFrom": "2024-01-01"
+        }
+      ]
+    }
+  ]
+}
