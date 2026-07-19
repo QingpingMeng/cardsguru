@@ -37,6 +37,8 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE: ${{ github.event.issue.number }}
         run: |
+          gh label create card-request --color 1f6feb --description "Request to add a card to the catalog" 2>/dev/null || true
+          gh label create automated --color ededed --description "Opened by automation" 2>/dev/null || true
           gh issue edit "$ISSUE" --add-label card-request 2>/dev/null || true
           gh issue comment "$ISSUE" --body "🤖 Thanks! Crawling sources and cross-validating this card's recurring benefits — I'll open a PR or follow up here shortly."
 

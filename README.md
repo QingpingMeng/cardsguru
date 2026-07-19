@@ -95,6 +95,23 @@ public/
   catalog/      Canonical catalog JSON served/updated at runtime
 ```
 
+## Requesting a new card
+
+Don't see a card you own? [Open a **Card request** issue](../../issues/new?template=card-request.yml).
+A bot (`.github/workflows/card-request.yml`) then:
+
+1. **Triages** the request and crawls the linked sources (uscreditcardguide.com and the issuer page).
+2. **Cross-validates** the recurring benefits across those sources with an LLM (GitHub Models).
+3. Adds the card to the catalog with a minimal diff and **opens a pull request** for review — as a
+   draft when confidence is low. It never merges on its own; a maintainer always reviews.
+
+If extraction fails or a source is missing, the bot comments on the issue with what it crawled so a
+human can finish the entry.
+
+**Maintainer setup (one-time):** under **Settings → Actions → General → Workflow permissions**, enable
+*Read and write permissions* and *Allow GitHub Actions to create and approve pull requests*. GitHub
+Models must also be available to the repo (used via the `models: read` permission).
+
 ## Deploying
 
 A GitHub Actions workflow (`.github/workflows/deploy.yml`) type-checks, lints, tests, builds, and
