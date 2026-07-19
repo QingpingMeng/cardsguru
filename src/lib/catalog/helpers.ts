@@ -1,4 +1,5 @@
 import type { Benefit, Card, Catalog, Issuer } from './schema';
+import type { OwnedCard } from '@/lib/data/schema';
 
 export interface CatalogIndex {
   issuersById: Map<string, Issuer>;
@@ -68,4 +69,38 @@ export function isBenefitActive(benefit: Benefit, on: Date = new Date()): boolea
   if (benefit.validFrom && new Date(benefit.validFrom) > on) return false;
   if (benefit.validTo && new Date(benefit.validTo) < on) return false;
   return true;
+}
+
+export type ProductChangeDirection = 'upgrade' | 'downgrade' | 'change';
+
+/**
+ * Classify a product change (upgrade / downgrade / lateral) between two catalog
+ * products. Annual fee is the clearest signal, so it decides first; when fees are
+ * equal or unknown we fall back to total advertised annual benefit value, and
+ * finally to a neutral 'change' when neither can tell them apart.
+ */
+export function productChangeDirection(from: Card, to: Card): ProductChangeDirection {
+  if (from.annualFee != null && to.annualFee != null && from.annualFee !== to.annualFee) {
+    return to.annualFee > from.annualFee ? 'upgrade' : 'downgrade';
+  }
+  const byValue = annualBenefitValue(to) - annualBenefitValue(from);
+  if (byValue > 0) return 'upgrade';
+  if (byValue < 0) return 'downgrade';
+  return 'change';
+}
+
+/**
+ * Describe an owned card's most recent product change for display, e.g.
+ * "Upgraded from Amex Gold". Returns undefined when the card has no lineage.
+ */
+export function describeLineage(catalog: Catalog, card: OwnedCard): string | undefined {
+  const prev = card.productHistory[card.productHistory.length - 1];
+  if (!prev) return undefined;
+  const fromCard = catalog.cards.find((c) => c.id === prev.catalogCardId);
+  const toCard = catalog.cards.find((c) => c.id === card.catalogCardId);
+  const fromName = fromCard?.name ?? prev.catalogCardId;
+  if (!fromCard || !toCard) return `Changed from ${fromName}`;
+  const dir = productChangeDirection(fromCard, toCard);
+  const verb = dir === 'upgrade' ? 'Upgraded' : dir === 'downgrade' ? 'Downgraded' : 'Changed';
+  return `${verb} from ${fromName}`;
 }

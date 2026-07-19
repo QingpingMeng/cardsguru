@@ -44,6 +44,13 @@ interface AppState {
   disconnect: () => Promise<void>;
   addCard: (input: NewOwnedCardInput) => Promise<void>;
   updateCard: (userCardId: string, patch: Partial<Omit<OwnedCard, 'userCardId'>>) => Promise<void>;
+  changeCardProduct: (
+    userCardId: string,
+    newCatalogCardId: string,
+    patch?: { last4?: string; nickname?: string },
+  ) => Promise<void>;
+  closeCard: (userCardId: string, closedDate?: string) => Promise<void>;
+  reopenCard: (userCardId: string) => Promise<void>;
   removeCard: (userCardId: string) => Promise<void>;
   setCompletion: (
     userCardId: string,
@@ -206,6 +213,56 @@ export const useAppStore = create<AppState>((set, get) => {
       const current = all.find((c) => c.userCardId === userCardId);
       if (!current) return;
       await store.putCard({ ...current, ...patch, userCardId, updatedAt: nowIso() });
+      await reloadFromLocal();
+      void backgroundSync();
+    },
+
+    async changeCardProduct(userCardId, newCatalogCardId, patch) {
+      // An upgrade/downgrade is a product change on the *same account*: keep the
+      // stable userCardId (and its open date + completion history) and only swap
+      // which catalog product it points at, recording the prior product for lineage.
+      const store = await getLocalStore();
+      const all = await store.getAllCards();
+      const current = all.find((c) => c.userCardId === userCardId);
+      if (!current) return;
+      if (newCatalogCardId === current.catalogCardId && !patch) return;
+      const ts = nowIso();
+      const productHistory =
+        newCatalogCardId === current.catalogCardId
+          ? current.productHistory
+          : [...current.productHistory, { catalogCardId: current.catalogCardId, changedAt: ts }];
+      await store.putCard({
+        ...current,
+        ...patch,
+        userCardId,
+        catalogCardId: newCatalogCardId,
+        productHistory,
+        updatedAt: ts,
+      });
+      await reloadFromLocal();
+      void backgroundSync();
+    },
+
+    async closeCard(userCardId, closedDate) {
+      // Closing keeps the card (and its history) but marks it inactive so it stops
+      // deriving benefits/notifications. `archived` drives the derive filter;
+      // `closedDate` is display metadata.
+      const store = await getLocalStore();
+      const all = await store.getAllCards();
+      const current = all.find((c) => c.userCardId === userCardId);
+      if (!current) return;
+      const date = closedDate ?? nowIso().slice(0, 10);
+      await store.putCard({ ...current, archived: true, closedDate: date, updatedAt: nowIso() });
+      await reloadFromLocal();
+      void backgroundSync();
+    },
+
+    async reopenCard(userCardId) {
+      const store = await getLocalStore();
+      const all = await store.getAllCards();
+      const current = all.find((c) => c.userCardId === userCardId);
+      if (!current) return;
+      await store.putCard({ ...current, archived: false, closedDate: undefined, updatedAt: nowIso() });
       await reloadFromLocal();
       void backgroundSync();
     },

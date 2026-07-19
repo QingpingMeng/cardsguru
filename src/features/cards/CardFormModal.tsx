@@ -10,9 +10,11 @@ export interface CardFormModalProps {
   open: boolean;
   onClose: () => void;
   editing?: OwnedCard;
+  /** When editing, renders a secondary "Delete permanently" action in the footer. */
+  onDelete?: () => void;
 }
 
-export function CardFormModal({ open, onClose, editing }: CardFormModalProps) {
+export function CardFormModal({ open, onClose, editing, onDelete }: CardFormModalProps) {
   const catalog = useAppStore((s) => s.catalog);
   const cards = useAppStore((s) => s.cards);
   const addCard = useAppStore((s) => s.addCard);
@@ -85,6 +87,18 @@ export function CardFormModal({ open, onClose, editing }: CardFormModalProps) {
       title={isEdit ? 'Edit card' : 'Add a card'}
       footer={
         <>
+          {isEdit && onDelete && (
+            <GlassButton
+              variant="ghost"
+              onClick={() => {
+                close();
+                onDelete();
+              }}
+              style={{ marginRight: 'auto', color: 'var(--color-danger)' }}
+            >
+              Delete permanently
+            </GlassButton>
+          )}
           <GlassButton variant="ghost" onClick={close}>
             Cancel
           </GlassButton>

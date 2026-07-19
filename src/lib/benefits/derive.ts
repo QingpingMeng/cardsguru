@@ -33,7 +33,7 @@ export interface DeriveInput {
 export function deriveBenefits(input: DeriveInput): DerivedBenefit[] {
   const { catalog, thresholdDays, referenceDate = new Date() } = input;
   const index = indexCatalog(catalog);
-  const cards = withoutDeleted(input.cards).filter((c) => !c.archived);
+  const cards = withoutDeleted(input.cards).filter((c) => !c.archived && !c.closedDate);
   const completions = withoutDeleted(input.completions);
 
   const out: DerivedBenefit[] = [];
