@@ -11,9 +11,15 @@ interface PreferencesState {
   transparency: TransparencyPreference;
   /** How the benefits dashboard aggregates its list. Device-local. */
   benefitGroupBy: GroupBy;
+  /** Hide benefits already marked used (incl. "set & forget") on the dashboard. Device-local. */
+  hideUsed: boolean;
+  /** Reveal ignored benefits on the dashboard so they can be managed/un-ignored. Device-local. */
+  showIgnored: boolean;
   setTheme: (theme: ThemePreference) => void;
   setTransparency: (transparency: TransparencyPreference) => void;
   setBenefitGroupBy: (groupBy: GroupBy) => void;
+  setHideUsed: (hideUsed: boolean) => void;
+  setShowIgnored: (showIgnored: boolean) => void;
 }
 
 export const usePreferences = create<PreferencesState>()(
@@ -22,9 +28,13 @@ export const usePreferences = create<PreferencesState>()(
       theme: 'auto',
       transparency: 'auto',
       benefitGroupBy: 'frequency',
+      hideUsed: false,
+      showIgnored: false,
       setTheme: (theme) => set({ theme }),
       setTransparency: (transparency) => set({ transparency }),
       setBenefitGroupBy: (benefitGroupBy) => set({ benefitGroupBy }),
+      setHideUsed: (hideUsed) => set({ hideUsed }),
+      setShowIgnored: (showIgnored) => set({ showIgnored }),
     }),
     { name: 'cardsguru:preferences' },
   ),

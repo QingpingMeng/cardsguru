@@ -18,7 +18,8 @@ function clamp(n: number, lo: number, hi: number): number {
 export function BenefitCard({ d }: { d: DerivedBenefit }) {
   const setCompletion = useAppStore((s) => s.setCompletion);
   const setAutoBenefit = useAppStore((s) => s.setAutoBenefit);
-  const { benefit, card, catalogCard, status, used, auto, periodKey } = d;
+  const setIgnoreBenefit = useAppStore((s) => s.setIgnoreBenefit);
+  const { benefit, card, catalogCard, status, used, auto, ignored, periodKey } = d;
 
   const { start, end } = status.period;
   const total = end.getTime() - start.getTime();
@@ -44,8 +45,12 @@ export function BenefitCard({ d }: { d: DerivedBenefit }) {
 
   const toggleAuto = (next: boolean) => void setAutoBenefit(card.userCardId, benefit.id, next);
 
+  const toggleIgnore = () => void setIgnoreBenefit(card.userCardId, benefit.id, !ignored);
+
   return (
-    <GlassCard className={`benefit${used ? ' is-used' : ''}${auto ? ' is-auto' : ''}`}>
+    <GlassCard
+      className={`benefit${used ? ' is-used' : ''}${auto ? ' is-auto' : ''}${ignored ? ' is-ignored' : ''}`}
+    >
       <div className="benefit__head">
         <div className="stack gap-1">
           <span className="benefit__title">{benefit.title}</span>
@@ -79,7 +84,9 @@ export function BenefitCard({ d }: { d: DerivedBenefit }) {
             />
             {card.nickname ? `${card.nickname} · ` : ''}•••• {card.last4}
           </span>
-          {used ? (
+          {ignored ? (
+            <Badge tone="neutral">Ignored</Badge>
+          ) : used ? (
             <Badge tone={auto ? 'accent' : 'success'}>{auto ? '↻ Auto' : 'Used'}</Badge>
           ) : (
             <Badge tone={dayTone}>
@@ -90,24 +97,48 @@ export function BenefitCard({ d }: { d: DerivedBenefit }) {
       </div>
 
       <div className="benefit__foot">
-        <label className="benefit__auto" title="Counts as used automatically every period — until you turn it off.">
-          <Switch
-            checked={auto}
-            onChange={toggleAuto}
-            label={`Set and forget ${benefit.title} — count as used automatically every period`}
-          />
-          <span className="benefit__auto-label">Set &amp; forget</span>
-        </label>
-        {!auto &&
-          (used ? (
-            <GlassButton size="sm" variant="ghost" onClick={toggle}>
-              Undo
+        {ignored ? (
+          <>
+            <span className="benefit__auto-label">Not tracked · no alerts</span>
+            <GlassButton size="sm" variant="secondary" onClick={toggleIgnore}>
+              Un-ignore
             </GlassButton>
-          ) : (
-            <GlassButton size="sm" variant="primary" onClick={toggle}>
-              Mark as used
-            </GlassButton>
-          ))}
+          </>
+        ) : (
+          <>
+            <label
+              className="benefit__auto"
+              title="Counts as used automatically every period — until you turn it off."
+            >
+              <Switch
+                checked={auto}
+                onChange={toggleAuto}
+                label={`Set and forget ${benefit.title} — count as used automatically every period`}
+              />
+              <span className="benefit__auto-label">Set &amp; forget</span>
+            </label>
+            <div className="benefit__actions">
+              <GlassButton
+                size="sm"
+                variant="ghost"
+                onClick={toggleIgnore}
+                title="Hide this benefit and stop alerting me about it"
+              >
+                Ignore
+              </GlassButton>
+              {!auto &&
+                (used ? (
+                  <GlassButton size="sm" variant="ghost" onClick={toggle}>
+                    Undo
+                  </GlassButton>
+                ) : (
+                  <GlassButton size="sm" variant="primary" onClick={toggle}>
+                    Mark as used
+                  </GlassButton>
+                ))}
+            </div>
+          </>
+        )}
       </div>
     </GlassCard>
   );

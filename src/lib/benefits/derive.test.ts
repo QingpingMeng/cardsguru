@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { CatalogSchema } from '@/lib/catalog/schema';
-import { CompletionSchema, completionId, autoCompletionId, AUTO_PERIOD_KEY, createOwnedCard } from '@/lib/data/schema';
+import { CompletionSchema, completionId, autoCompletionId, ignoreCompletionId, AUTO_PERIOD_KEY, IGNORE_PERIOD_KEY, createOwnedCard } from '@/lib/data/schema';
 import { deriveBenefits, expiringSoon, groupBenefits, groupByFrequency } from './derive';
 
 const catalog = CatalogSchema.parse({
@@ -83,8 +83,42 @@ describe('deriveBenefits', () => {
     expect(airline.used).toBe(false);
   });
 
-  it('flags an unused annual credit expiring at year-end', () => {
+  it('excludes an ignored benefit from alerts without dropping its row', () => {
     const card = createOwnedCard({ catalogCardId: 'amex-platinum', last4: '1234' });
+    const ignoreMarker = CompletionSchema.parse({
+      id: ignoreCompletionId(card.userCardId, 'amex-platinum:airline'),
+      userCardId: card.userCardId,
+      benefitId: 'amex-platinum:airline',
+      periodKey: IGNORE_PERIOD_KEY,
+      status: 'skipped',
+    });
+    const derived = deriveBenefits({ catalog, cards: [card], completions: [ignoreMarker], thresholdDays: 7, referenceDate: ref });
+    // The sentinel does not create its own benefit occurrence.
+    expect(derived).toHaveLength(2);
+    const airline = derived.find((d) => d.benefit.id === 'amex-platinum:airline')!;
+    expect(airline.ignored).toBe(true);
+    expect(airline.status.expiringSoon).toBe(false);
+    // And it drops out of the expiring-soon alert list entirely.
+    expect(expiringSoon(derived).map((d) => d.benefit.id)).not.toContain('amex-platinum:airline');
+  });
+
+  it('un-ignoring (tombstoned sentinel) restores alerting', () => {
+    const card = createOwnedCard({ catalogCardId: 'amex-platinum', last4: '1234' });
+    const disabledIgnore = CompletionSchema.parse({
+      id: ignoreCompletionId(card.userCardId, 'amex-platinum:airline'),
+      userCardId: card.userCardId,
+      benefitId: 'amex-platinum:airline',
+      periodKey: IGNORE_PERIOD_KEY,
+      status: 'skipped',
+      deleted: true,
+    });
+    const derived = deriveBenefits({ catalog, cards: [card], completions: [disabledIgnore], thresholdDays: 7, referenceDate: ref });
+    const airline = derived.find((d) => d.benefit.id === 'amex-platinum:airline')!;
+    expect(airline.ignored).toBe(false);
+    expect(expiringSoon(derived).map((d) => d.benefit.id)).toContain('amex-platinum:airline');
+  });
+
+  it('flags an unused annual credit expiring at year-end', () => {    const card = createOwnedCard({ catalogCardId: 'amex-platinum', last4: '1234' });
     const derived = deriveBenefits({ catalog, cards: [card], completions: [], thresholdDays: 7, referenceDate: ref });
     const soon = expiringSoon(derived);
     expect(soon.map((d) => d.benefit.id)).toContain('amex-platinum:airline');

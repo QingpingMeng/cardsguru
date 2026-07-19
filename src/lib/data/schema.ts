@@ -140,6 +140,19 @@ export function autoCompletionId(userCardId: string, benefitId: string): string 
   return completionId(userCardId, benefitId, AUTO_PERIOD_KEY);
 }
 
+/**
+ * Sentinel `periodKey` marking a benefit as "ignored": the user has opted out of tracking it,
+ * so it is excluded from every alert channel (expiring-soon list, nav badge, notifications) and
+ * hidden from the dashboard by default. Stored as an ordinary `skipped` completion so it rides the
+ * existing sync/merge machinery, and — being `skipped`, not `used` — it never appears in History.
+ */
+export const IGNORE_PERIOD_KEY = 'ignored';
+
+/** Deterministic id for a benefit's ignore marker on a specific owned card. */
+export function ignoreCompletionId(userCardId: string, benefitId: string): string {
+  return completionId(userCardId, benefitId, IGNORE_PERIOD_KEY);
+}
+
 export function createProfile(settings?: Partial<Settings>): Profile {
   const ts = nowIso();
   return ProfileSchema.parse({

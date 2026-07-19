@@ -5,6 +5,7 @@ import { getLocalStore, type RepoConfig } from '@/lib/data/db';
 import {
   AUTO_PERIOD_KEY,
   CompletionSchema,
+  IGNORE_PERIOD_KEY,
   completionId,
   createOwnedCard,
   createProfile,
@@ -60,6 +61,7 @@ interface AppState {
     amount?: number,
   ) => Promise<void>;
   setAutoBenefit: (userCardId: string, benefitId: string, enabled: boolean) => Promise<void>;
+  setIgnoreBenefit: (userCardId: string, benefitId: string, ignored: boolean) => Promise<void>;
   updateSettings: (patch: Partial<Settings>) => Promise<void>;
   syncNow: () => Promise<void>;
   refreshCatalog: () => Promise<CatalogUpdateResult>;
@@ -307,6 +309,12 @@ export const useAppStore = create<AppState>((set, get) => {
       // "Set & forget" is stored as a sentinel-period completion so it reuses the
       // existing completion persistence, sync, and last-write-wins merge.
       await get().setCompletion(userCardId, benefitId, AUTO_PERIOD_KEY, enabled ? 'used' : null);
+    },
+
+    async setIgnoreBenefit(userCardId, benefitId, ignored) {
+      // "Ignore" is a sentinel-period `skipped` completion so it syncs and merges like any
+      // other, excludes the benefit from every alert channel, and never shows in History.
+      await get().setCompletion(userCardId, benefitId, IGNORE_PERIOD_KEY, ignored ? 'skipped' : null);
     },
 
     async updateSettings(patch) {
