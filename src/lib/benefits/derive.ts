@@ -1,6 +1,7 @@
-import type { Benefit, Card, Catalog } from '@/lib/catalog/schema';
+import type { Benefit, BenefitCategory, Card, Catalog } from '@/lib/catalog/schema';
 import { indexCatalog, isBenefitActive } from '@/lib/catalog/helpers';
 import { AUTO_PERIOD_KEY, cardAnchorDate, type Completion, type OwnedCard } from '@/lib/data/schema';
+import { formatCategory, formatFrequency } from '@/lib/format';
 import { evaluateBenefit, type BenefitStatus } from '@/lib/period/periodEngine';
 import { withoutDeleted } from '@/lib/sync/merge';
 
@@ -111,4 +112,87 @@ export function groupByFrequency(derived: readonly DerivedBenefit[]): BenefitGro
     frequency,
     items: derived.filter((d) => d.benefit.frequency === frequency),
   })).filter((g) => g.items.length > 0);
+}
+
+/** Dimension the dashboard aggregates benefits by. */
+export type GroupBy = 'frequency' | 'card' | 'category';
+
+/**
+ * A rendered section of the dashboard: a heading plus the benefits under it.
+ * `card`/`catalogCard` are populated only when grouping by card, so the header
+ * can show the card art.
+ */
+export interface BenefitSection {
+  /** Stable key for React and per-section collapse state. */
+  key: string;
+  title: string;
+  /** Secondary heading text, e.g. a masked last-4 when grouping by card. */
+  subtitle?: string;
+  card?: OwnedCard;
+  catalogCard?: Card;
+  items: DerivedBenefit[];
+}
+
+const CATEGORY_ORDER: BenefitCategory[] = [
+  'travel',
+  'hotel',
+  'airline',
+  'dining',
+  'rideshare',
+  'streaming',
+  'entertainment',
+  'shopping',
+  'grocery',
+  'wellness',
+  'rewards',
+  'other',
+];
+
+function sectionsByCard(derived: readonly DerivedBenefit[]): BenefitSection[] {
+  const order: string[] = [];
+  const byCard = new Map<string, DerivedBenefit[]>();
+  for (const d of derived) {
+    const key = d.card.userCardId;
+    let items = byCard.get(key);
+    if (!items) {
+      items = [];
+      byCard.set(key, items);
+      order.push(key);
+    }
+    items.push(d);
+  }
+  return order.map((key) => {
+    const items = byCard.get(key)!;
+    const { card, catalogCard } = items[0];
+    return {
+      key,
+      title: card.nickname || catalogCard.name,
+      subtitle: `•••• ${card.last4}`,
+      card,
+      catalogCard,
+      items,
+    };
+  });
+}
+
+function sectionsByCategory(derived: readonly DerivedBenefit[]): BenefitSection[] {
+  return CATEGORY_ORDER.map((category) => ({
+    key: category,
+    title: formatCategory(category),
+    items: derived.filter((d) => d.benefit.category === category),
+  })).filter((s) => s.items.length > 0);
+}
+
+/**
+ * Aggregate derived benefits into ordered, renderable sections for the chosen
+ * dimension. Empty sections are omitted so the dashboard only shows what applies.
+ */
+export function groupBenefits(derived: readonly DerivedBenefit[], groupBy: GroupBy): BenefitSection[] {
+  if (groupBy === 'card') return sectionsByCard(derived);
+  if (groupBy === 'category') return sectionsByCategory(derived);
+  return groupByFrequency(derived).map((g) => ({
+    key: g.frequency,
+    title: formatFrequency(g.frequency),
+    items: g.items,
+  }));
 }

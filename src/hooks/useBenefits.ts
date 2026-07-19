@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useAppStore } from '@/store/appStore';
-import { deriveBenefits, expiringSoon, groupByFrequency } from '@/lib/benefits';
+import { deriveBenefits, expiringSoon } from '@/lib/benefits';
 
 /** Shared, memoized view of the user's benefits derived from catalog + owned cards. */
 export function useBenefits() {
@@ -14,7 +14,6 @@ export function useBenefits() {
     return {
       derived,
       soon: expiringSoon(derived),
-      groups: groupByFrequency(derived),
       threshold,
     };
   }, [catalog, cards, completions, threshold]);

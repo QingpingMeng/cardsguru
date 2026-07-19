@@ -1,28 +1,55 @@
+import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { GlassButton, GlassPanel } from '@/components/glass';
+import { GlassButton, GlassPanel, SegmentedControl } from '@/components/glass';
 import { EmptyState } from '@/components/ui';
 import { useBenefits } from '@/hooks/useBenefits';
-import { formatFrequency, formatMoney } from '@/lib/format';
+import { groupBenefits, type GroupBy } from '@/lib/benefits';
+import { formatMoney } from '@/lib/format';
 import { useAppStore } from '@/store/appStore';
-import { BenefitCard } from './BenefitCard';
+import { usePreferences } from '@/store/preferences';
+import { BenefitSection } from './BenefitSection';
+
+const GROUP_BY_OPTIONS: { value: GroupBy; label: string }[] = [
+  { value: 'frequency', label: 'Cycle' },
+  { value: 'card', label: 'Card' },
+  { value: 'category', label: 'Category' },
+];
+
+const GROUP_BY_HINT: Record<GroupBy, string> = {
+  frequency: 'grouped by reset cycle',
+  card: 'grouped by card',
+  category: 'grouped by category',
+};
 
 export function DashboardScreen() {
   const navigate = useNavigate();
   const cards = useAppStore((s) => s.cards);
-  const { derived, groups, soon } = useBenefits();
+  const groupBy = usePreferences((s) => s.benefitGroupBy);
+  const setGroupBy = usePreferences((s) => s.setBenefitGroupBy);
+  const { derived, soon } = useBenefits();
 
   const usedCount = derived.filter((d) => d.used).length;
   const remainingValue = derived
     .filter((d) => !d.used && d.benefit.value)
     .reduce((sum, d) => sum + (d.benefit.value?.amount ?? 0), 0);
 
+  const sections = useMemo(() => groupBenefits(derived, groupBy), [derived, groupBy]);
+
   return (
     <div className="stack">
       <header className="toolbar">
         <div className="toolbar__grow">
           <h1 className="page-title">Benefits</h1>
-          <p className="text-secondary">Your recurring credits, grouped by reset cycle.</p>
+          <p className="text-secondary">Your recurring credits, {GROUP_BY_HINT[groupBy]}.</p>
         </div>
+        {derived.length > 0 && (
+          <SegmentedControl
+            ariaLabel="Group benefits by"
+            options={GROUP_BY_OPTIONS}
+            value={groupBy}
+            onChange={setGroupBy}
+          />
+        )}
       </header>
 
       {cards.length === 0 ? (
@@ -68,15 +95,8 @@ export function DashboardScreen() {
             </GlassPanel>
           </div>
 
-          {groups.map((group) => (
-            <section key={group.frequency}>
-              <h2 className="section-title">{formatFrequency(group.frequency)}</h2>
-              <div className="card-grid">
-                {group.items.map((d) => (
-                  <BenefitCard key={`${d.card.userCardId}:${d.benefit.id}`} d={d} />
-                ))}
-              </div>
-            </section>
+          {sections.map((section) => (
+            <BenefitSection key={`${groupBy}:${section.key}`} section={section} />
           ))}
         </>
       )}
