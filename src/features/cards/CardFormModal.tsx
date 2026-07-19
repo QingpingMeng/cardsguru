@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { GlassButton, GlassPanel } from '@/components/glass';
 import { CardArt } from '@/components/CardArt';
 import { Modal, TextField } from '@/components/ui';
-import { getIssuerName } from '@/lib/catalog/helpers';
+import { getIssuerName, searchCards } from '@/lib/catalog/helpers';
 import type { OwnedCard } from '@/lib/data/schema';
 import { useAppStore } from '@/store/appStore';
 
@@ -23,11 +23,12 @@ export function CardFormModal({ open, onClose, editing }: CardFormModalProps) {
   const [last4, setLast4] = useState(editing?.last4 ?? '');
   const [nickname, setNickname] = useState(editing?.nickname ?? '');
   const [openedDate, setOpenedDate] = useState(editing?.openedDate ?? '');
+  const [query, setQuery] = useState('');
   const [error, setError] = useState<string | null>(null);
 
-  const sortedCards = useMemo(
-    () => [...catalog.cards].sort((a, b) => a.name.localeCompare(b.name)),
-    [catalog.cards],
+  const filteredCards = useMemo(
+    () => [...searchCards(catalog, query)].sort((a, b) => a.name.localeCompare(b.name)),
+    [catalog, query],
   );
   const selected = catalog.cards.find((c) => c.id === catalogCardId);
   const isAmex = selected?.network === 'amex' || selected?.issuerId === 'amex';
@@ -38,6 +39,7 @@ export function CardFormModal({ open, onClose, editing }: CardFormModalProps) {
     setLast4('');
     setNickname('');
     setOpenedDate('');
+    setQuery('');
     setError(null);
   };
 
@@ -95,48 +97,60 @@ export function CardFormModal({ open, onClose, editing }: CardFormModalProps) {
       {!isEdit && (
         <div className="field">
           <span className="field__label">Product</span>
+          <input
+            type="search"
+            className="input"
+            placeholder="Search by card or issuer…"
+            aria-label="Search card products"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
           <GlassPanel
             variant="flat"
             className="catalog-picker-panel"
             style={{ maxHeight: 260, overflowY: 'auto', padding: 'var(--space-2)' }}
           >
             <div className="catalog-picker" role="listbox" aria-label="Card product">
-              {sortedCards.map((card) => {
-                const active = card.id === catalogCardId;
-                return (
-                  <button
-                    key={card.id}
-                    type="button"
-                    role="option"
-                    aria-selected={active}
-                    className={`catalog-row${active ? ' is-active' : ''}`}
-                    onClick={() => {
-                      setCatalogCardId(card.id);
-                      const len = card.network === 'amex' || card.issuerId === 'amex' ? 5 : 4;
-                      setLast4((v) => v.slice(0, len));
-                    }}
-                  >
-                    <CardArt
-                      size="sm"
-                      name={card.name}
-                      artRef={card.artRef}
-                      imageUrl={card.imageUrl}
-                    />
-                    <div className="catalog-row__body">
-                      <div className="catalog-row__name">{card.name}</div>
-                      <div className="catalog-row__meta">
-                        {getIssuerName(catalog, card.issuerId)} · {card.benefits.length}{' '}
-                        {card.benefits.length === 1 ? 'benefit' : 'benefits'}
+              {filteredCards.length === 0 ? (
+                <p className="catalog-picker__empty">No cards match “{query.trim()}”.</p>
+              ) : (
+                filteredCards.map((card) => {
+                  const active = card.id === catalogCardId;
+                  return (
+                    <button
+                      key={card.id}
+                      type="button"
+                      role="option"
+                      aria-selected={active}
+                      className={`catalog-row${active ? ' is-active' : ''}`}
+                      onClick={() => {
+                        setCatalogCardId(card.id);
+                        const len = card.network === 'amex' || card.issuerId === 'amex' ? 5 : 4;
+                        setLast4((v) => v.slice(0, len));
+                      }}
+                    >
+                      <CardArt
+                        size="sm"
+                        name={card.name}
+                        artRef={card.artRef}
+                        imageUrl={card.imageUrl}
+                      />
+                      <div className="catalog-row__body">
+                        <div className="catalog-row__name">{card.name}</div>
+                        <div className="catalog-row__meta">
+                          {getIssuerName(catalog, card.issuerId)} · {card.benefits.length}{' '}
+                          {card.benefits.length === 1 ? 'benefit' : 'benefits'}
+                        </div>
                       </div>
-                    </div>
-                    {active && (
-                      <span className="catalog-row__check" aria-hidden>
-                        ✓
-                      </span>
-                    )}
-                  </button>
-                );
-              })}
+                      {active && (
+                        <span className="catalog-row__check" aria-hidden>
+                          ✓
+                        </span>
+                      )}
+                    </button>
+                  );
+                })
+              )}
             </div>
           </GlassPanel>
         </div>

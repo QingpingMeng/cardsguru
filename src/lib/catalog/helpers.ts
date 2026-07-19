@@ -31,6 +31,23 @@ export function getIssuerName(catalog: Catalog, issuerId: string): string {
   return catalog.issuers.find((i) => i.id === issuerId)?.name ?? issuerId;
 }
 
+/**
+ * Filter catalog cards by a free-text query. Whitespace-separated terms are
+ * AND-matched (case-insensitively) against the card name, its issuer's name,
+ * and its network — so "amex gold" matches an American Express card named
+ * "Gold Card". An empty or whitespace-only query returns every card.
+ */
+export function searchCards(catalog: Catalog, query: string): Card[] {
+  const terms = query.toLowerCase().split(/\s+/).filter(Boolean);
+  if (terms.length === 0) return catalog.cards;
+  return catalog.cards.filter((card) => {
+    const haystack = [card.name, getIssuerName(catalog, card.issuerId), card.network ?? '']
+      .join(' ')
+      .toLowerCase();
+    return terms.every((term) => haystack.includes(term));
+  });
+}
+
 /** Total advertised annual value of a card's monetary recurring credits. */
 export function annualBenefitValue(card: Card): number {
   const perYear: Record<Benefit['frequency'], number> = {
