@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { GlassButton, GlassPanel } from '@/components/glass';
 import { CardArt } from '@/components/CardArt';
 import { Modal, TextField } from '@/components/ui';
@@ -27,6 +27,18 @@ export function CardFormModal({ open, onClose, editing, onDelete }: CardFormModa
   const [openedDate, setOpenedDate] = useState(editing?.openedDate ?? '');
   const [query, setQuery] = useState('');
   const [error, setError] = useState<string | null>(null);
+
+  // The edit modal stays mounted (toggled via `open`), so the useState
+  // initializers above run only once — before `editing` is set. Re-hydrate the
+  // form from the card whenever the edit modal opens.
+  useEffect(() => {
+    if (!open || !editing) return;
+    setCatalogCardId(editing.catalogCardId);
+    setLast4(editing.last4);
+    setNickname(editing.nickname ?? '');
+    setOpenedDate(editing.openedDate ?? '');
+    setError(null);
+  }, [open, editing]);
 
   const filteredCards = useMemo(
     () => [...searchCards(catalog, query)].sort((a, b) => a.name.localeCompare(b.name)),
