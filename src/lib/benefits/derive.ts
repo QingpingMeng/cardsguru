@@ -1,6 +1,6 @@
 import type { Benefit, BenefitCategory, Card, Catalog } from '@/lib/catalog/schema';
 import { indexCatalog, isBenefitActive } from '@/lib/catalog/helpers';
-import { AUTO_PERIOD_KEY, cardAnchorDate, type Completion, type OwnedCard } from '@/lib/data/schema';
+import { AUTO_PERIOD_KEY, IGNORE_PERIOD_KEY, cardAnchorDate, type Completion, type OwnedCard } from '@/lib/data/schema';
 import { formatCategory, formatFrequency } from '@/lib/format';
 import { evaluateBenefit, type BenefitStatus } from '@/lib/period/periodEngine';
 import { withoutDeleted } from '@/lib/sync/merge';
@@ -13,6 +13,8 @@ export interface DerivedBenefit {
   used: boolean;
   /** "Set & forget": auto-used every period until the user turns it off. */
   auto: boolean;
+  /** User opted out of tracking this benefit — excluded from all alerts, hidden by default. */
+  ignored: boolean;
   completion?: Completion;
   status: BenefitStatus;
 }
@@ -67,6 +69,12 @@ export function deriveBenefits(input: DeriveInput): DerivedBenefit[] {
           c.periodKey === AUTO_PERIOD_KEY &&
           c.status === 'used',
       );
+      const ignored = completions.some(
+        (c) =>
+          c.userCardId === card.userCardId &&
+          c.benefitId === benefit.id &&
+          c.periodKey === IGNORE_PERIOD_KEY,
+      );
       const completion = completions.find(
         (c) => c.userCardId === card.userCardId && c.benefitId === benefit.id && c.periodKey === periodKey,
       );
@@ -79,9 +87,10 @@ export function deriveBenefits(input: DeriveInput): DerivedBenefit[] {
         periodKey,
         used,
         auto,
+        ignored,
         completion,
-        // Re-evaluate expiringSoon with the real used flag.
-        status: { ...status, expiringSoon: !used && status.expiringSoon },
+        // Re-evaluate expiringSoon with the real used flag; ignored benefits never alert.
+        status: { ...status, expiringSoon: !used && !ignored && status.expiringSoon },
       });
     }
   }

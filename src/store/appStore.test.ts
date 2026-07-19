@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeAll } from 'vitest';
 import { useAppStore } from './appStore';
 import { getBuiltInCatalog } from '@/lib/catalog';
+import { IGNORE_PERIOD_KEY } from '@/lib/data/schema';
 
 /**
  * Exercises the store against the real IndexedDB-backed LocalStore (fake-indexeddb
@@ -41,5 +42,21 @@ describe('appStore (local-first)', () => {
   it('persists settings changes', async () => {
     await useAppStore.getState().updateSettings({ notifThresholdDays: 14 });
     expect(useAppStore.getState().profile?.settings.notifThresholdDays).toBe(14);
+  });
+
+  it('ignores a benefit via a skipped sentinel and un-ignores it', async () => {
+    const userCardId = useAppStore.getState().cards[0].userCardId;
+
+    await useAppStore.getState().setIgnoreBenefit(userCardId, benefit.id, true);
+    const marker = useAppStore
+      .getState()
+      .completions.find((c) => c.periodKey === IGNORE_PERIOD_KEY && c.benefitId === benefit.id);
+    expect(marker?.status).toBe('skipped');
+
+    await useAppStore.getState().setIgnoreBenefit(userCardId, benefit.id, false);
+    // Tombstoned sentinel is filtered out of the UI-facing list.
+    expect(useAppStore.getState().completions.some((c) => c.periodKey === IGNORE_PERIOD_KEY)).toBe(
+      false,
+    );
   });
 });

@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { GlassButton, GlassPanel, SegmentedControl } from '@/components/glass';
+import { GlassButton, GlassPanel, SegmentedControl, Switch } from '@/components/glass';
 import { EmptyState } from '@/components/ui';
 import { useBenefits } from '@/hooks/useBenefits';
 import { groupBenefits, type GroupBy } from '@/lib/benefits';
@@ -26,14 +26,28 @@ export function DashboardScreen() {
   const cards = useAppStore((s) => s.cards);
   const groupBy = usePreferences((s) => s.benefitGroupBy);
   const setGroupBy = usePreferences((s) => s.setBenefitGroupBy);
+  const hideUsed = usePreferences((s) => s.hideUsed);
+  const setHideUsed = usePreferences((s) => s.setHideUsed);
+  const showIgnored = usePreferences((s) => s.showIgnored);
+  const setShowIgnored = usePreferences((s) => s.setShowIgnored);
   const { derived, soon } = useBenefits();
 
-  const usedCount = derived.filter((d) => d.used).length;
-  const remainingValue = derived
+  // Ignored benefits are opted out of tracking, so stats reflect only the rest.
+  const tracked = useMemo(() => derived.filter((d) => !d.ignored), [derived]);
+  const ignoredCount = derived.length - tracked.length;
+
+  const usedCount = tracked.filter((d) => d.used).length;
+  const remainingValue = tracked
     .filter((d) => !d.used && d.benefit.value)
     .reduce((sum, d) => sum + (d.benefit.value?.amount ?? 0), 0);
 
-  const sections = useMemo(() => groupBenefits(derived, groupBy), [derived, groupBy]);
+  const visible = useMemo(() => {
+    let list = showIgnored ? derived : tracked;
+    if (hideUsed) list = list.filter((d) => !d.used);
+    return list;
+  }, [derived, tracked, showIgnored, hideUsed]);
+
+  const sections = useMemo(() => groupBenefits(visible, groupBy), [visible, groupBy]);
 
   return (
     <div className="stack">
@@ -83,7 +97,7 @@ export function DashboardScreen() {
             </GlassPanel>
             <GlassPanel className="stat">
               <span className="stat__value">
-                {usedCount}/{derived.length}
+                {usedCount}/{tracked.length}
               </span>
               <span className="stat__label">Benefits completed</span>
             </GlassPanel>
@@ -95,9 +109,38 @@ export function DashboardScreen() {
             </GlassPanel>
           </div>
 
-          {sections.map((section) => (
-            <BenefitSection key={`${groupBy}:${section.key}`} section={section} />
-          ))}
+          <div className="view-options">
+            <label className="view-option">
+              <Switch checked={hideUsed} onChange={setHideUsed} label="Hide benefits already used" />
+              <span className="view-option__label">Hide used</span>
+            </label>
+            {ignoredCount > 0 && (
+              <label className="view-option">
+                <Switch
+                  checked={showIgnored}
+                  onChange={setShowIgnored}
+                  label="Show ignored benefits"
+                />
+                <span className="view-option__label">Show ignored ({ignoredCount})</span>
+              </label>
+            )}
+          </div>
+
+          {sections.length === 0 ? (
+            <EmptyState
+              icon="🫥"
+              title="Everything's hidden"
+              description={
+                hideUsed
+                  ? "You've used every tracked benefit this period. Turn off “Hide used” to see them again."
+                  : 'Your filters are hiding every benefit. Adjust the view options above.'
+              }
+            />
+          ) : (
+            sections.map((section) => (
+              <BenefitSection key={`${groupBy}:${section.key}`} section={section} />
+            ))
+          )}
         </>
       )}
     </div>

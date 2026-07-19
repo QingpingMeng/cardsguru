@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { OwnedCardSchema, createOwnedCard } from './schema';
+import { OwnedCardSchema, createOwnedCard, autoCompletionId, ignoreCompletionId, IGNORE_PERIOD_KEY } from './schema';
 
 describe('OwnedCard last4/last5 identifier', () => {
   const base = { userCardId: 'u1', catalogCardId: 'amex-platinum' };
@@ -20,5 +20,17 @@ describe('OwnedCard last4/last5 identifier', () => {
 
   it('rejects non-numeric identifiers', () => {
     expect(OwnedCardSchema.safeParse({ ...base, last4: '12a4' }).success).toBe(false);
+  });
+});
+
+describe('sentinel completion ids', () => {
+  it('builds a deterministic ignore id keyed by card + benefit', () => {
+    expect(ignoreCompletionId('u1', 'amex-platinum:airline')).toBe(
+      `u1:amex-platinum:airline:${IGNORE_PERIOD_KEY}`,
+    );
+  });
+
+  it('keeps the ignore and auto sentinels distinct', () => {
+    expect(ignoreCompletionId('u1', 'b1')).not.toBe(autoCompletionId('u1', 'b1'));
   });
 });
