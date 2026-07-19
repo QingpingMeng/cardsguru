@@ -94,7 +94,8 @@ export function productChangeDirection(from: Card, to: Card): ProductChangeDirec
  * "Upgraded from Amex Gold". Returns undefined when the card has no lineage.
  */
 export function describeLineage(catalog: Catalog, card: OwnedCard): string | undefined {
-  const prev = card.productHistory[card.productHistory.length - 1];
+  const history = card.productHistory ?? [];
+  const prev = history[history.length - 1];
   if (!prev) return undefined;
   const fromCard = catalog.cards.find((c) => c.id === prev.catalogCardId);
   const toCard = catalog.cards.find((c) => c.id === card.catalogCardId);

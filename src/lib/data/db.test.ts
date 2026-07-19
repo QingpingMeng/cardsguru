@@ -1,7 +1,13 @@
 import 'fake-indexeddb/auto';
 import { describe, it, expect } from 'vitest';
 import { LocalStore } from './db';
-import { CompletionSchema, completionId, createOwnedCard, createProfile } from './schema';
+import {
+  CompletionSchema,
+  completionId,
+  createOwnedCard,
+  createProfile,
+  type OwnedCard,
+} from './schema';
 
 let n = 0;
 const dbName = () => `cardsguru-test-${Date.now()}-${n++}`;
@@ -23,6 +29,19 @@ describe('LocalStore', () => {
     await store.putCards([a, b]);
     const all = await store.getAllCards();
     expect(all.map((c) => c.last4).sort()).toEqual(['1111', '2222']);
+    store.close();
+  });
+
+  it('backfills schema defaults for legacy card rows (e.g. missing productHistory)', async () => {
+    const store = await LocalStore.open(dbName());
+    // Simulate a row written by an older build before `productHistory` existed.
+    const legacy = createOwnedCard({ catalogCardId: 'amex-gold', last4: '4444' });
+    delete (legacy as { productHistory?: unknown }).productHistory;
+    await store.putCard(legacy as OwnedCard);
+
+    const [read] = await store.getAllCards();
+    // Reading normalizes it back to a valid array so the UI can't crash on `.length`.
+    expect(read.productHistory).toEqual([]);
     store.close();
   });
 

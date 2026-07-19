@@ -1,5 +1,18 @@
 import { openDB, type DBSchema, type IDBPDatabase } from 'idb';
-import type { Completion, OwnedCard, Profile } from './schema';
+import { OwnedCardSchema, type Completion, type OwnedCard, type Profile } from './schema';
+
+/**
+ * Normalize a stored card row against the current schema. Rows written by older
+ * builds can miss fields that were added later and are only filled at parse time
+ * (e.g. `productHistory`, whose Zod default is `[]`). Reading such a row raw
+ * surfaces `undefined` where an array is expected and crashes the UI (e.g.
+ * `describeLineage` reading `productHistory.length`). We parse to backfill
+ * defaults, falling back to a minimal repair if the row is otherwise malformed.
+ */
+function coerceOwnedCard(row: OwnedCard): OwnedCard {
+  const parsed = OwnedCardSchema.safeParse(row);
+  return parsed.success ? parsed.data : { ...row, productHistory: row.productHistory ?? [] };
+}
 
 interface CardsGuruDB extends DBSchema {
   profile: { key: string; value: Profile };
@@ -54,7 +67,7 @@ export class LocalStore {
 
   // cards (includes tombstoned rows; callers filter with withoutDeleted)
   async getAllCards(): Promise<OwnedCard[]> {
-    return this.db.getAll('cards');
+    return (await this.db.getAll('cards')).map(coerceOwnedCard);
   }
   async putCard(card: OwnedCard): Promise<void> {
     await this.db.put('cards', card);
