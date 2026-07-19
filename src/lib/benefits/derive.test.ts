@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { CatalogSchema } from '@/lib/catalog/schema';
 import { CompletionSchema, completionId, autoCompletionId, AUTO_PERIOD_KEY, createOwnedCard } from '@/lib/data/schema';
-import { deriveBenefits, expiringSoon, groupByFrequency } from './derive';
+import { deriveBenefits, expiringSoon, groupBenefits, groupByFrequency } from './derive';
 
 const catalog = CatalogSchema.parse({
   schemaVersion: 1,
@@ -112,5 +112,75 @@ describe('deriveBenefits', () => {
     const derived = deriveBenefits({ catalog, cards: [card], completions: [], thresholdDays: 7, referenceDate: ref });
     const groups = groupByFrequency(derived);
     expect(groups.map((g) => g.frequency)).toEqual(['monthly', 'annual']);
+  });
+});
+
+const multiCardCatalog = CatalogSchema.parse({
+  schemaVersion: 1,
+  catalogVersion: 1,
+  updatedAt: '2025-01-01T00:00:00.000Z',
+  issuers: [
+    { id: 'amex', name: 'American Express' },
+    { id: 'chase', name: 'Chase' },
+  ],
+  cards: [
+    {
+      id: 'amex-platinum',
+      issuerId: 'amex',
+      name: 'Platinum',
+      network: 'amex',
+      benefits: [
+        { id: 'amex-platinum:uber', title: 'Uber Cash', frequency: 'monthly', category: 'rideshare', value: { amount: 15 } },
+        { id: 'amex-platinum:airline', title: 'Airline Fee', frequency: 'annual', category: 'airline', value: { amount: 200 } },
+      ],
+    },
+    {
+      id: 'chase-sapphire',
+      issuerId: 'chase',
+      name: 'Sapphire Reserve',
+      network: 'visa',
+      benefits: [
+        { id: 'chase-sapphire:dining', title: 'Dining Credit', frequency: 'monthly', category: 'dining', value: { amount: 25 } },
+        { id: 'chase-sapphire:travel', title: 'Travel Credit', frequency: 'annual', category: 'travel', value: { amount: 300 } },
+      ],
+    },
+  ],
+});
+
+describe('groupBenefits', () => {
+  const amex = createOwnedCard({ catalogCardId: 'amex-platinum', last4: '1234', nickname: 'Weekender' });
+  const chase = createOwnedCard({ catalogCardId: 'chase-sapphire', last4: '5678' });
+  const derived = deriveBenefits({
+    catalog: multiCardCatalog,
+    cards: [amex, chase],
+    completions: [],
+    thresholdDays: 7,
+    referenceDate: ref,
+  });
+
+  it('groups by card in owned-card order, using nickname or card name', () => {
+    const sections = groupBenefits(derived, 'card');
+    expect(sections.map((s) => s.key)).toEqual([amex.userCardId, chase.userCardId]);
+    expect(sections.map((s) => s.title)).toEqual(['Weekender', 'Sapphire Reserve']);
+    expect(sections.map((s) => s.subtitle)).toEqual(['•••• 1234', '•••• 5678']);
+    expect(sections.map((s) => s.items.length)).toEqual([2, 2]);
+    // Card grouping exposes the card + catalog card so the header can render art.
+    expect(sections[0].card?.userCardId).toBe(amex.userCardId);
+    expect(sections[0].catalogCard?.id).toBe('amex-platinum');
+  });
+
+  it('groups by category in catalog order, omitting empty categories', () => {
+    const sections = groupBenefits(derived, 'category');
+    expect(sections.map((s) => s.key)).toEqual(['travel', 'airline', 'dining', 'rideshare']);
+    expect(sections.map((s) => s.title)).toEqual(['Travel', 'Airline', 'Dining', 'Rideshare']);
+    expect(sections.every((s) => s.items.length === 1)).toBe(true);
+    expect(sections.find((s) => s.key === 'dining')!.items[0].benefit.id).toBe('chase-sapphire:dining');
+  });
+
+  it('groups by reset cycle with human-friendly titles', () => {
+    const sections = groupBenefits(derived, 'frequency');
+    expect(sections.map((s) => s.key)).toEqual(['monthly', 'annual']);
+    expect(sections.map((s) => s.title)).toEqual(['Monthly', 'Annual']);
+    expect(sections.map((s) => s.items.length)).toEqual([2, 2]);
   });
 });

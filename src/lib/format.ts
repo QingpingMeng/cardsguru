@@ -1,4 +1,4 @@
-import type { BenefitFrequency, Money, ResetAnchor } from '@/lib/catalog/schema';
+import type { BenefitCategory, BenefitFrequency, Money, ResetAnchor } from '@/lib/catalog/schema';
 
 const FREQUENCY_LABELS: Record<BenefitFrequency, string> = {
   monthly: 'Monthly',
@@ -10,6 +10,25 @@ const FREQUENCY_LABELS: Record<BenefitFrequency, string> = {
 
 export function formatFrequency(frequency: BenefitFrequency): string {
   return FREQUENCY_LABELS[frequency];
+}
+
+const CATEGORY_LABELS: Record<BenefitCategory, string> = {
+  travel: 'Travel',
+  hotel: 'Hotel',
+  airline: 'Airline',
+  dining: 'Dining',
+  rideshare: 'Rideshare',
+  streaming: 'Streaming',
+  entertainment: 'Entertainment',
+  shopping: 'Shopping',
+  grocery: 'Grocery',
+  wellness: 'Wellness',
+  rewards: 'Rewards',
+  other: 'Other',
+};
+
+export function formatCategory(category: BenefitCategory): string {
+  return CATEGORY_LABELS[category];
 }
 
 export function formatResetAnchor(anchor: ResetAnchor): string {
