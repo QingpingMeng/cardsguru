@@ -47,6 +47,19 @@ export type Profile = z.infer<typeof ProfileSchema>;
 
 // ---- Owned cards ------------------------------------------------------------
 
+/**
+ * A single product change (upgrade/downgrade) in a card's lifetime. Recorded when
+ * the same account is converted to a different catalog product so we can show the
+ * card's lineage without losing the stable `userCardId` (and its history).
+ */
+export const ProductChangeSchema = z.object({
+  /** The catalog card id the account held *before* this change. */
+  catalogCardId: z.string(),
+  /** ISO timestamp when the product change was recorded. */
+  changedAt: z.string().default(nowIso),
+});
+export type ProductChange = z.infer<typeof ProductChangeSchema>;
+
 export const OwnedCardSchema = z.object({
   /** Stable per-account-instance id (multiple of the same product each get one). */
   userCardId: z.string(),
@@ -64,6 +77,10 @@ export const OwnedCardSchema = z.object({
   updatedAt: z.string().default(nowIso),
   /** User archived the card (kept for history) but no longer active. */
   archived: z.boolean().default(false),
+  /** 'YYYY-MM-DD' the account was closed. Present ⇒ card is closed (inactive). */
+  closedDate: z.string().optional(),
+  /** Prior products this account held, oldest→newest, for upgrade/downgrade lineage. */
+  productHistory: z.array(ProductChangeSchema).default([]),
   /** Sync tombstone — hard-removed on all devices, filtered from reads. */
   deleted: z.boolean().default(false),
 });

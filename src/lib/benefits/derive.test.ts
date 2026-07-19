@@ -107,6 +107,31 @@ describe('deriveBenefits', () => {
     expect(derived.find((d) => d.benefit.id === 'amex-platinum:uber')!.used).toBe(false);
   });
 
+  it('ignores closed cards (kept for history, not tracked)', () => {
+    const card = createOwnedCard({ catalogCardId: 'amex-platinum', last4: '1234' });
+    const closed = { ...card, closedDate: '2025-06-01' };
+    expect(
+      deriveBenefits({ catalog, cards: [closed], completions: [], thresholdDays: 7, referenceDate: ref }),
+    ).toHaveLength(0);
+  });
+
+  it('tracks the new product after a product change', () => {
+    // Same account (userCardId) now points at a different product; benefits follow it.
+    const card = createOwnedCard({ catalogCardId: 'amex-platinum', last4: '1234' });
+    const changed = { ...card, catalogCardId: 'chase-sapphire' };
+    const derived = deriveBenefits({
+      catalog: multiCardCatalog,
+      cards: [changed],
+      completions: [],
+      thresholdDays: 7,
+      referenceDate: ref,
+    });
+    expect(derived.map((d) => d.benefit.id).sort()).toEqual([
+      'chase-sapphire:dining',
+      'chase-sapphire:travel',
+    ]);
+  });
+
   it('groups benefits by reset cycle in order', () => {
     const card = createOwnedCard({ catalogCardId: 'amex-platinum', last4: '1234' });
     const derived = deriveBenefits({ catalog, cards: [card], completions: [], thresholdDays: 7, referenceDate: ref });

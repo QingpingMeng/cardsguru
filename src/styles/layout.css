@@ -435,10 +435,33 @@
 .owned-card__body { flex: 1; min-width: 0; }
 .owned-card__name {
   font-weight: var(--weight-semibold);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
 }
 .owned-card__art {
   width: 96px;
   flex: none;
+}
+.owned-card__actions {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.owned-card__lineage {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+}
+.owned-card--closed .owned-card__art,
+.owned-card--closed .owned-card__name {
+  opacity: 0.6;
+}
+.change-product__from {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
 }
 
 .catalog-picker {
