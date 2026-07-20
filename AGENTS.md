@@ -142,8 +142,9 @@ scripts/        sync-catalog.mjs, generate-icons.mjs, screenshots.mjs, ingest-ca
 
 - Push to `main` → `.github/workflows/deploy.yml` type-checks, lints, tests, builds, and publishes to
   **GitHub Pages**. Pages **Source must be "GitHub Actions"** (not a branch).
-- For the project page at `https://<user>.github.io/<repo>/`, the workflow sets
-  `CARDSGURU_BASE=/<repo>/` so assets resolve; routing uses `HashRouter` so deep links work.
+- The site is served from the custom domain **`cc.qingping.me`** (declared via `public/CNAME`), so it
+  loads from the domain root — no `CARDSGURU_BASE` override is needed. Routing uses `HashRouter` so
+  deep links work. DNS: a `CNAME` record maps `cc.qingping.me` → `qingpingmeng.github.io`.
 
 ## Do / Don't
 
