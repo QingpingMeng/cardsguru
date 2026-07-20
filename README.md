@@ -118,11 +118,15 @@ A GitHub Actions workflow (`.github/workflows/deploy.yml`) type-checks, lints, t
 publishes to **GitHub Pages** on every push to `main`.
 
 - In the repo settings, set **Pages → Build and deployment → Source** to **GitHub Actions**.
-- For a project page at `https://<user>.github.io/<repo>/`, the workflow sets `CARDSGURU_BASE` to
-  `/<repo>/` automatically so assets resolve. Routing uses `HashRouter`, so deep links and refreshes
-  work without extra server config.
+- The site is served from the custom domain **`cc.qingping.me`** (declared via `public/CNAME`), so it
+  loads from the domain root and no `CARDSGURU_BASE` override is needed. Routing uses `HashRouter`, so
+  deep links and refreshes work without extra server config.
 
-To build for a custom base locally:
+**Custom domain (DNS):** add a `CNAME` record at your DNS provider pointing `cc.qingping.me` →
+`qingpingmeng.github.io`, then set **Pages → Custom domain** to `cc.qingping.me` and enable
+*Enforce HTTPS* once the certificate is issued.
+
+To build for a custom base locally (e.g. to preview a project-page style path):
 
 ```bash
 CARDSGURU_BASE=/my-base/ npm run build

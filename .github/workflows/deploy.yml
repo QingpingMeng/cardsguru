@@ -39,10 +39,8 @@ jobs:
           npm run test
 
       - name: Build
-        # For a project page served at https://<user>.github.io/<repo>/, assets must
-        # be requested from /<repo>/. Routing uses HashRouter so deep links still work.
-        env:
-          CARDSGURU_BASE: /${{ github.event.repository.name }}/
+        # Served from the custom domain root (cc.qingping.me via public/CNAME), so assets
+        # resolve from /. Vite's base defaults to /, so no CARDSGURU_BASE override is needed.
         run: npm run build
 
       - name: Upload Pages artifact
