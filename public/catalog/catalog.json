@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "catalogVersion": 4,
-  "updatedAt": "2026-07-19T18:00:00.000Z",
+  "catalogVersion": 5,
+  "updatedAt": "2026-08-01T18:20:00.000Z",
   "issuers": [
     { "id": "amex", "name": "American Express" },
     { "id": "chase", "name": "Chase" },
@@ -265,6 +265,7 @@
       "annualFee": 795,
       "productUrl": "https://www.chase.com/personal/credit-cards/sapphire/reserve",
       "artRef": "sapphire-reserve",
+      "imageUrl": "https://creditcards.chase.com/content/dam/jpmc-marketplace/card-art/sapphire_reserve_card_Halo.png",
       "benefits": [
         {
           "id": "chase-sapphire-reserve:travel",
@@ -377,6 +378,7 @@
       "annualFee": 95,
       "productUrl": "https://www.chase.com/personal/credit-cards/sapphire/preferred",
       "artRef": "sapphire-preferred",
+      "imageUrl": "https://creditcards.chase.com/content/dam/jpmc-marketplace/card-art/sapphire-preferredcard2026.png",
       "benefits": [
         {
           "id": "chase-sapphire-preferred:hotel",
@@ -680,6 +682,7 @@
       "annualFee": 550,
       "productUrl": "https://www.bankofamerica.com/credit-cards/products/premium-rewards-elite-credit-card/",
       "artRef": "premium-rewards-elite",
+      "imageUrl": "https://www.bankofamerica.com/content/images/ContextualSiteGraphics/CreditCardArt/en_US/Approved_PCM/8cud_premrewelite_v_250x158.png",
       "benefits": [
         {
           "id": "boa-premium-rewards-elite:airline-incidental",
@@ -713,6 +716,7 @@
       "annualFee": 450,
       "productUrl": "https://www.chase.com/personal/credit-cards",
       "artRef": "ritz-carlton",
+      "imageUrl": "https://www.uscreditcardguide.com/wp-content/uploads/marriott_ritz-card.png",
       "benefits": [
         {
           "id": "chase-ritz-carlton:airline-incidental",
@@ -779,6 +783,7 @@
       "annualFee": 95,
       "productUrl": "https://www.chase.com/personal/credit-cards/hyatt",
       "artRef": "world-of-hyatt",
+      "imageUrl": "https://creditcards.chase.com/content/dam/jpmc-marketplace/card-art/world_of_hyatt_card.png",
       "benefits": [
         {
           "id": "chase-world-of-hyatt:free-night",
@@ -811,6 +816,7 @@
       "annualFee": 350,
       "productUrl": "https://www.americanexpress.com/us/credit-cards/card/delta-platinum/",
       "artRef": "delta-platinum",
+      "imageUrl": "https://icm.aexp-static.com/Internet/Acquisition/US_en/AppContent/OneSite/category/cardarts/platinum-delta-skymiles.png",
       "benefits": [
         {
           "id": "amex-delta-platinum:resy",
@@ -868,6 +874,7 @@
       "annualFee": 95,
       "productUrl": "https://creditcards.wellsfargo.com/autograph-journey-visa-credit-card/",
       "artRef": "autograph-journey",
+      "imageUrl": "https://creditcards.wellsfargo.com/rv/bcs/production/autograph-journey.CX8QRJ3I_Z23rMfB.webp",
       "benefits": [
         {
           "id": "wells-autograph-journey:airline-credit",
