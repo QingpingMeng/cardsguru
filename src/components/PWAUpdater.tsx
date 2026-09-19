@@ -26,7 +26,7 @@ export function PWAUpdater() {
         <span className="pwa-toast__text">
           {needRefresh ? 'A new version of CardsGuru is available.' : 'CardsGuru is ready to work offline.'}
         </span>
-        <div className="row gap-2">
+        <div className="row gap-2 pwa-toast__actions">
           {needRefresh && (
             <GlassButton size="sm" variant="primary" onClick={() => void updateServiceWorker(true)}>
               Reload
