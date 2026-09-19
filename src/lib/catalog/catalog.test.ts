@@ -47,6 +47,43 @@ describe('bundled catalog', () => {
     expect(index.cardIdByBenefitId.get('amex-gold:uber-cash')).toBe('amex-gold');
   });
 
+  it('includes Delta Gold with its recurring credits and eligibility conditions', () => {
+    const card = catalog.cards.find((c) => c.id === 'amex-delta-gold')!;
+    expect(card).toMatchObject({
+      name: 'Delta SkyMiles Gold American Express Card',
+      issuerId: 'amex',
+      network: 'amex',
+      annualFee: 150,
+    });
+    expect(card.benefits).toHaveLength(3);
+    expect(card.benefits).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          id: 'amex-delta-gold:delta-stays',
+          value: { amount: 100, currency: 'USD' },
+          frequency: 'annual',
+          resetAnchor: 'calendar',
+        }),
+        expect.objectContaining({
+          id: 'amex-delta-gold:flight-credit',
+          value: { amount: 200, currency: 'USD' },
+          frequency: 'annual',
+          resetAnchor: 'calendar',
+          cap: expect.stringContaining('$10,000'),
+          terms: expect.stringContaining('expires one year from issuance'),
+        }),
+        expect.objectContaining({
+          id: 'amex-delta-gold:rideshare',
+          value: { amount: 10, currency: 'USD' },
+          frequency: 'monthly',
+          resetAnchor: 'calendar',
+          enrollmentRequired: true,
+          cap: expect.stringContaining('only after your first card renewal'),
+        }),
+      ]),
+    );
+  });
+
   it('computes a positive annual value for cards with monetary credits', () => {
     const platinum = catalog.cards.find((c) => c.id === 'amex-platinum')!;
     // Uber 15*12 + Digital 20*12 + Saks 50*2 + Airline 200 + Hotel 200 + Walmart 12.95*12 + CLEAR 199
@@ -86,7 +123,8 @@ describe('searchCards', () => {
   });
 
   it('AND-matches multiple whitespace-separated terms', () => {
-    expect(ids('amex gold')).toEqual(['amex-gold']);
+    expect(ids('amex gold')).toEqual(['amex-gold', 'amex-delta-gold']);
+    expect(ids('amex delta gold')).toEqual(['amex-delta-gold']);
   });
 
   it('returns nothing when no card matches every term', () => {
