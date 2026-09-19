@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "catalogVersion": 5,
-  "updatedAt": "2026-08-01T18:20:00.000Z",
+  "catalogVersion": 6,
+  "updatedAt": "2026-09-19T05:34:13.001Z",
   "issuers": [
     { "id": "amex", "name": "American Express" },
     { "id": "chase", "name": "Chase" },
@@ -805,6 +805,54 @@
           "terms": "Requires $15,000 in eligible purchases within the calendar year.",
           "sourceUrl": "https://www.chase.com/personal/credit-cards/hyatt",
           "validFrom": "2024-01-01"
+        }
+      ]
+    },
+    {
+      "id": "amex-delta-gold",
+      "issuerId": "amex",
+      "name": "Delta SkyMiles Gold American Express Card",
+      "network": "amex",
+      "annualFee": 150,
+      "productUrl": "https://www.americanexpress.com/us/credit-cards/card/delta-skymiles-gold-american-express-card/",
+      "artRef": "gold",
+      "imageUrl": "https://icm.aexp-static.com/Internet/Acquisition/US_en/AppContent/OneSite/category/cardarts/gold-delta-skymiles.png",
+      "benefits": [
+        {
+          "id": "amex-delta-gold:delta-stays",
+          "title": "Delta Stays Credit",
+          "description": "Up to $100 back each calendar year on prepaid hotels or vacation rentals booked through Delta Stays at delta.com/stays and paid with the card.",
+          "category": "hotel",
+          "value": { "amount": 100 },
+          "frequency": "annual",
+          "resetAnchor": "calendar",
+          "sourceUrl": "https://global.americanexpress.com/card-benefits/detail/delta-stays-credit/delta-gold",
+          "terms": "Only eligible prepaid Delta Stays bookings qualify. Property fees, resort fees, and cancellation fees are excluded."
+        },
+        {
+          "id": "amex-delta-gold:flight-credit",
+          "title": "Spend-Based Delta Flight Credit",
+          "description": "Earn a $200 Delta Flight Credit after spending $10,000 in eligible purchases on the card in a calendar year.",
+          "category": "airline",
+          "value": { "amount": 200 },
+          "cap": "Requires $10,000 in eligible calendar-year purchases.",
+          "frequency": "annual",
+          "resetAnchor": "calendar",
+          "sourceUrl": "https://global.americanexpress.com/card-benefits/detail/delta-flight-credit/delta-gold",
+          "terms": "One credit per account per calendar year after meeting the spending requirement. The earning window resets each calendar year; the issued eCredit expires one year from issuance, not at calendar year-end. Use toward eligible Delta-marketed flights."
+        },
+        {
+          "id": "amex-delta-gold:rideshare",
+          "title": "Rideshare Credit After Renewal",
+          "description": "After your first card renewal, up to $10 back each month on eligible U.S. rideshare purchases with select providers.",
+          "category": "rideshare",
+          "value": { "amount": 10 },
+          "cap": "Available only after your first card renewal.",
+          "frequency": "monthly",
+          "resetAnchor": "calendar",
+          "enrollmentRequired": true,
+          "sourceUrl": "https://www.americanexpress.com/en-us/account/get-started/deltagold/uncover-your-benefits",
+          "terms": "Not available during the first card year. Enrollment is required; pay with the enrolled card. Up to $10 per calendar month after the first renewal."
         }
       ]
     },
