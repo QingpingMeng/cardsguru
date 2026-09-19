@@ -46,6 +46,8 @@
   --space-8: 3rem;
   --space-9: 4rem;
 
+  --mobile-tabbar-height: calc(64px + env(safe-area-inset-bottom, 0px));
+
   /* Concentric radii */
   --radius-xs: 8px;
   --radius-sm: 12px;

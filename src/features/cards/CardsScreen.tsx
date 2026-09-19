@@ -53,8 +53,7 @@ export function CardsScreen() {
             imageUrl={cc?.imageUrl}
             network={cc?.network}
             issuer={cc ? getIssuerName(catalog, cc.issuerId) : undefined}
-            last4={card.last4}
-            nickname={card.nickname}
+            size="sm"
           />
         </div>
         <div className="owned-card__body">
@@ -62,10 +61,11 @@ export function CardsScreen() {
             <span>{cc?.name ?? card.catalogCardId}</span>
             {closed && <Badge tone="neutral">Closed</Badge>}
           </div>
-          <div className="text-secondary" style={{ fontSize: 'var(--text-xs)' }}>
-            {card.nickname ? `${card.nickname} · ` : ''}•••• {card.last4}
-            {cc && !closed ? ` · ${cc.benefits.length} benefits` : ''}
-            {closed && card.closedDate ? ` · Closed ${formatLocalDate(card.closedDate)}` : ''}
+          <div className="owned-card__meta">
+            {card.nickname && <span className="owned-card__nickname">{card.nickname}</span>}
+            <span className="owned-card__digits">•••• {card.last4}</span>
+            {cc && !closed && <span>{cc.benefits.length} benefits</span>}
+            {closed && card.closedDate && <span>Closed {formatLocalDate(card.closedDate)}</span>}
           </div>
           {lineage && <div className="owned-card__lineage">{lineage}</div>}
         </div>
@@ -76,14 +76,12 @@ export function CardsScreen() {
 
   return (
     <div className="stack">
-      <header className="toolbar">
-        <div className="toolbar__grow">
-          <h1 className="page-title">My Cards</h1>
-          <p className="text-secondary">The cards you own — add more than one of the same product.</p>
-        </div>
+      <header className="toolbar cards-toolbar">
+        <h1 className="page-title">My Cards</h1>
         <GlassButton variant="primary" onClick={() => setAdding(true)}>
           + Add card
         </GlassButton>
+        <p className="text-secondary">The cards you own — add more than one of the same product.</p>
       </header>
 
       {cards.length === 0 ? (
@@ -227,4 +225,3 @@ export function CardsScreen() {
     </div>
   );
 }
-
