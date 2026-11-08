@@ -34,6 +34,27 @@ describe('bundled catalog', () => {
     }
   });
 
+  it('includes Capital One Venture and Venture X with their trusted traveler credits', () => {
+    for (const [cardId, name] of [
+      ['capitalone-venture', 'Capital One Venture Rewards'],
+      ['capitalone-venture-x', 'Capital One Venture X'],
+    ]) {
+      const card = catalog.cards.find((c) => c.id === cardId)!;
+      expect(card).toMatchObject({ name, issuerId: 'capitalone' });
+      expect(card.benefits).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            id: `${cardId}:trusted-traveler-credit`,
+            value: { amount: 120, currency: 'USD' },
+            frequency: 'one_time',
+            sourceUrl:
+              'https://www.capitalone.com/help-center/credit-cards/tsa-precheck-global-entry-benefits/',
+          }),
+        ]),
+      );
+    }
+  });
+
   it('gives every card at least one recurring benefit', () => {
     for (const card of catalog.cards) {
       expect(card.benefits.length).toBeGreaterThan(0);
