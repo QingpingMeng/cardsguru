@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "catalogVersion": 6,
-  "updatedAt": "2026-09-19T05:34:13.001Z",
+  "catalogVersion": 7,
+  "updatedAt": "2026-11-08T18:56:17.847Z",
   "issuers": [
     { "id": "amex", "name": "American Express" },
     { "id": "chase", "name": "Chase" },
@@ -408,6 +408,28 @@
       ]
     },
     {
+      "id": "capitalone-venture",
+      "issuerId": "capitalone",
+      "name": "Capital One Venture Rewards",
+      "network": "visa",
+      "annualFee": 95,
+      "productUrl": "https://www.capitalone.com/credit-cards/venture/",
+      "artRef": "venture",
+      "benefits": [
+        {
+          "id": "capitalone-venture:trusted-traveler-credit",
+          "title": "Global Entry / TSA PreCheck Credit",
+          "description": "Up to $120 in statement credits for a Global Entry or TSA PreCheck application fee.",
+          "category": "travel",
+          "value": { "amount": 120 },
+          "frequency": "one_time",
+          "resetAnchor": "calendar",
+          "terms": "One credit per account every four years. CardsGuru tracks this as a single use and does not schedule the next four-year eligibility period.",
+          "sourceUrl": "https://www.capitalone.com/help-center/credit-cards/tsa-precheck-global-entry-benefits/"
+        }
+      ]
+    },
+    {
       "id": "capitalone-venture-x",
       "issuerId": "capitalone",
       "name": "Capital One Venture X",
@@ -427,6 +449,17 @@
           "resetAnchor": "anniversary",
           "sourceUrl": "https://www.capitalone.com/credit-cards/venture-x/",
           "validFrom": "2024-01-01"
+        },
+        {
+          "id": "capitalone-venture-x:trusted-traveler-credit",
+          "title": "Global Entry / TSA PreCheck Credit",
+          "description": "Up to $120 in statement credits for a Global Entry or TSA PreCheck application fee.",
+          "category": "travel",
+          "value": { "amount": 120 },
+          "frequency": "one_time",
+          "resetAnchor": "calendar",
+          "terms": "One credit per account every four years. CardsGuru tracks this as a single use and does not schedule the next four-year eligibility period.",
+          "sourceUrl": "https://www.capitalone.com/help-center/credit-cards/tsa-precheck-global-entry-benefits/"
         },
         {
           "id": "capitalone-venture-x:anniversary-miles",
